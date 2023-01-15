@@ -1,3 +1,3 @@
-# CS 6524 Course
+# ECE 6524: Deep Learning
 
 # Hands-On Machine Learning with Scikit-Learn, Keras, and Tensorflow
