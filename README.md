@@ -1,2 +1,3 @@
-# ml_notebooks
-Notebooks for machine learning and deep learning algorithms
+# CS 6524 Course
+
+# Hands-On Machine Learning with Scikit-Learn, Keras, and Tensorflow
