@@ -2,7 +2,7 @@
 
 ## Deep Learning with Python
 
-### Chapter 2's Summary:
+### Chapter 2's Summary: The mathematical building blocks of neural networks
 - Tensors from the foundation of the modern ML systems. They come in various flavors of dtype, rank, and shape.
 - You can manipulate numerical tensors via tensor operations which can be interpreted as encoding geometric transformantions. Everything in DL is amenable to a geometric interpretation.
 - DL models consist of chains of simple tensor operations, parameterized by weights, which are themselves tensors. The weights of a model are where its "knowledge" is stored.
