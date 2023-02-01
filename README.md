@@ -12,4 +12,12 @@
 - Loss is the quantity you'll attempt to minimize during training. It represents the measurement of success for the task you're trying to solve.
 - Optimizer specifies the exact way in which the gradient of the loss with be used to update parameters: RMSProp or SGD or SGD with momenntum.
 
+### Chapter 3's Summary: Introduction to Keras and Tensorflow
+- TensorFlow is an industry-strength numerical computing framework that can run on CPU, GPU, or TPU. It can automatically compute the gradient of any differentiable expression, it can be distributed to many devices, and it can export programs to various external runtimes—even JavaScript.
+- Key TensorFlow objects include tensors, variables, tensor operations, and the gradient tape.
+- The central class of Keras is the Layer. A layer encapsulates some weights and some computation. Layers are assembled into models.
+- Before you start training a model, you need to pick an optimizer, a loss, and some metrics, which you specify via the model.compile() method.
+- To train a model, you can use the fit() method, which runs mini-batch gradient descent for you. You can also use it to monitor your loss and metrics on validation data, a set of inputs that the model doesn’t see during training.
+- Once your model is trained, you use the model.predict() method to generate predictions on new inputs.
+
 ## Participated Competitions
