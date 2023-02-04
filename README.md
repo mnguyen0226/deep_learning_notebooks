@@ -28,7 +28,14 @@
   - With a scalar sigmoid output on a binary classification, the loss function should use a binary_crossentropy.
   - RMSprop usually a good choice.
   - Overfit can happen to monitor the performance on the training and validation dataset via History.
-
+- Multiclass Classification: Reuter Dataset
+  - Categorical crossentropy is almost always the loss function you should use for such problems. It minimizes the distance between the probability distributions output by the model and the true distribution of the targets.
+  - There are two ways to handle labels in multiclass classification:
+    - Encoding the labels via categorical encoding (also known as one-hot encoding) and using categorical_crossentropy as a loss function
+    - Encoding the labels as integers and using the sparse_categorical_crossentropy loss function
+  - If you need to classify data into a large number of categories, you should avoid creating information bottlenecks in your model due to intermediate layers that 
+are too small.
+  
 ### Chapter 5: Fundamentals of Machine Learning
 
 ### Chapter 6: The Universal Workflow of Machine Learning
