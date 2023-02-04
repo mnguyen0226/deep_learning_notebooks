@@ -35,6 +35,22 @@
     - Encoding the labels as integers and using the sparse_categorical_crossentropy loss function
   - If you need to classify data into a large number of categories, you should avoid creating information bottlenecks in your model due to intermediate layers that 
 are too small.
+- Regression: Boston House Dataset
+  - Regression is done using different loss functions than we used for classification.
+  - Mean squared error (MSE) is a loss function commonly used for regression.
+  - Similarly, evaluation metrics to be used for regression differ from those used for classification; naturally, the concept of accuracy doesn’t apply for regression. A common regression metric is mean absolute error (MAE).
+  - Normalization: When features in the input data have values in different ranges, each feature should be scaled independently as a preprocessing step
+  - K-fold: When there is little data available, using K-fold validation is a great way to reliably evaluate a model. It can also be helpful to determine the right number of epochs to train prior to overfit.
+  - When little training data is available, it’s preferable to use a small model with few intermediate layers (typically only one or two), in order to avoid severe overfitting. 
+- Summary:
+  - The three most common kinds of machine learning tasks on **vector data** are binary classification, multiclass classification, and scalar regression
+  - Regression uses different loss functions and different evaluation metrics than classification.
+  - You’ll usually need to preprocess raw data before feeding it into a neural network.
+  - When your data has features with different ranges, scale each feature independently as part of preprocessing.
+  - As training progresses, neural networks eventually begin to overfit and obtainworse results on never-before-seen data.
+  - If you don’t have much training data, use a small model with only one or two intermediate layers, to avoid severe overfitting
+  - If your data is divided into many categories, you may cause information bottlenecks if you make the intermediate layers too small.
+  - When you’re working with little data, K-fold validation can help reliably evaluate your model.
   
 ### Chapter 5: Fundamentals of Machine Learning
 
