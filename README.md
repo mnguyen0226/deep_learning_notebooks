@@ -21,6 +21,13 @@
 - Once your model is trained, you use the model.predict() method to generate predictions on new inputs.
 
 ### Chapter 4: Getting Started With Neural Networks: Classification and Regression
+- Binary Classification: IMDB Dataset
+  - Preprocessing: sequences of words can be encoded as binary vectors or other types of enciding
+  - Stacks Dense layers with relu activation can solve a lot of problems.
+  - In binary classification, model should end with a Dense layer with one unit and a sigmoid activation: the output of your model should be a scalar between 0 and 1, encoding a probability.
+  - With a scalar sigmoid output on a binary classification, the loss function should use a binary_crossentropy.
+  - RMSprop usually a good choice.
+  - Overfit can happen to monitor the performance on the training and validation dataset via History.
 
 ### Chapter 5: Fundamentals of Machine Learning
 
