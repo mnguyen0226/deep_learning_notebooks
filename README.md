@@ -192,6 +192,14 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
     - Are there particular constraints you will need to deal with? 
   - Collect a Dataset (most arduous, time-consuming, and costly in ML project)
     - A good dataset is an asset worthy of care and investment. If you get an extra 50 hours to spend on a project, chances0 are that the most effective way to allocate them is to collect more data rather than search for incremental modeling improvements.
+    - “The Unreasonable Effectiveness of Data” (2009 Google Research): data matters more than algorithms.
+    - If possible, collect data directly from the environment where your model will be used.
+    - Concept drift occurs when the properties of the production data change over time, causing model accuracy to gradually decay.  Dealing with fast concept drift requires constant data collection, annotation, and model retraining.
+  - Understand your data
+  - Choose a measure of success
+    - Your metric for success will guide all of the technical choices you make throughout the project. It should directly align with your higher-level goals, such as the business success of your customer.
+    - For a balanced classification, use ROC and accuracy
+    - For imbalance classification, ranking or multilabel classificaiotn, use precision and recall, weighted accuracy, and ROC AUC.
 
 - Develop a model
 
