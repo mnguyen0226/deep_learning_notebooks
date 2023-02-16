@@ -280,6 +280,13 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
     - Monitor your model’s performance in production, and keep collecting data so you can develop the next generation of the model 
 
 ### Chapter 7: Working With Keras: A Deep Dive
+- Learn:
+  - Creating Keras models with the Sequential class, the Functional API, and a model subclassing.
+  - Using builtin Keras training and evaluation loops.
+  - Using Keras callbacks to customize training.
+  - Using TensorBoard to monitor training and evaluation metrics.
+  - Writing training and evaluation loops from scratch.
+-  Progressive disclosure of complexity for model building.
 
 ### Chapter 8: Introduction To Deep Learing For Computer Vision
 
