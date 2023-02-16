@@ -287,6 +287,7 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
   - Using TensorBoard to monitor training and evaluation metrics.
   - Writing training and evaluation loops from scratch.
 -  Progressive disclosure of complexity for model building.
+![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/progressive_keras.PNG)
 
 ### Chapter 8: Introduction To Deep Learing For Computer Vision
 
