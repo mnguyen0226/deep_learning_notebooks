@@ -95,7 +95,25 @@ are too small.
      - you can’t seem to be able to overfit, it’s likely a problem with the representational power of your model: you’re going to need a bigger model, one with more capacity, that is to say, one able to store more information
  
 - Improve Generalization
-  -
+  - Dataset Curation:
+    - Get more data.
+    - Minimize labeling error.
+    - Deal with missing data.
+    - Feature selection
+  - Feature engineer: the process of using your own knowledge about the data and about the machine leanring algorithm at hand to make the algorithm owrk beter by applying hardcoded (non-learned) transformations to the data before it goes into the model. It's a basic way to make the proble easie by expressing it in a simpler way. Although deep learning models are able to extract features, you still need feature engineering.
+    - Good features still allow you to solve problems more elegantly while using fewer resources.
+    - Good features let you solve a problem with far less data.
+  - Early Stopping: which will interrupt training as soon as validation metrics have stopped improving, while remembering the best known model state.
+  - Regularization: are a set of best practices that actively impede the model’s ability to fit perfectly to the training data, with the goal of making the model perform better during validation. This is called “regularizing” the model, because it tends to make the model simpler, more “regular,” its curve smoother, more “generic”; thus it is less specific to the training set and better able to generalize by more closely approximating the latent manifold of the data.
+    - Reducing network's size: If the model has limited memorization resources, it won’t be able to simply memorize its training data; thus, in order to minimize its loss, it will have to resort to learning compressed representations that have predictive power regarding the targets—precisely the type of representations we’re interested in.
+      - You’ll know your model is too large if it starts overfitting right away and if its validation loss curve looks choppy with highvariance
+      - Note: The bigger model starts overfitting almost immediately, after just one epoch, and it overfits much more severely. Its validation loss is also noisier. It gets training loss near zero very quickly. The more capacity the model has, the more quickly it can model the training data (resulting in a low training loss), but the more susceptible it is to overfitting (resulting in a large difference between the training and validation loss). 
+    - Adding weight regularization:  Simpler models are less likely to overfit than complex ones. 
+      - Simpler model = the model with fewer parameter.
+      - A common way to mitigate overfit is to put constraints on complexity of the model by forcing its weight to take only small values, which makes the distribution of the weight value more regular. Weight regularization == adding the loss function of the model a cost associated with having large weights.
+      - L1 regularization: The cost added is proportional to the absolute value of the weight coefficients
+      - L2 regularization: The cost added is proportional to the square of the value of the weight coefficients L2 regularization is also called weight decay in the context of neural networks.
+   - Dropout:
 
 ### Chapter 6: The Universal Workflow of Machine Learning
 
