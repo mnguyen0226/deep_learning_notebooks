@@ -69,11 +69,33 @@ are too small.
   - Dataset with densely samplings: the model learned to approximates the latent space well, and interpolation leads to genelization. While sparse sampling makes the model does not match the latent space and leads to wrong interpolation. Interpolation == guess the next data point based on the existent data point
   - **Regularization**: When getting more data is not possible, it's best to add constaints on the moothness of hte model curve. If a network can only afford to memorize a small number of patterns or very regular patterns, the optimization process will force it to focus on the most prominent patterns, which better the chance of over it
 
-- Evaluating ML Model
-
+- **Evaluating ML Model**
+  - Way 1: Training, validation, test sets. Validation set is used to tune hyperparameters (number and size of layers). Note that if you tune too much, then the validation set will be "leaked" to the model, although you did not train on it. The test set must not be reviewed
+  - Way 2: Simple holdout validation. Train 80% and evaluate on 20%.
+     - This way does not perform well on small dataset. Why? Because if different random shuffling rounds of data before splitting end up yielding very different measurement of model's performance, then, you will have issue.
+  - Way 3: K-fold validation. 
+     - Methods is helpful when the model's performance is variance 
+  - Way 4: Iterated K-fold validation with shuffling. You use when you have relatively little data available and you need to evalute your model as precisely as possible. How? To apply K-fold validation multiple times, shuffling data every time before splitting it K ways. You then evaluate P * K models 
+     - Very expensive
+  
 - Improving Model Fit
-
+  - Problem 1: Training doesn’t get started: your training loss doesn’t go down over time. 
+    - Tune the gradient descent process: 
+      - your choice of optimizer
+      - the distribution of initial values in the weights of your model
+      - your learning rate
+      - your batch size
+     
+  - Problem 2: Training gets started just fine, but your model doesn’t meaningfully generalize: you can’t beat the common-sense baseline you set.
+    -  something is fundamentally wrong with your approach
+      - it may be that the input data you’re using simply doesn’t contain sufficient information to predict your targets: the problem as formulated is not solvable.
+      - kind of model you’re using is not suited for the problem at hand
+   
+  - Problem 3: Training and validation loss both go down over time, and you can beat your baseline, but you don’t seem to be able to overfit, which indicates you’re still underfitting.
+     - you can’t seem to be able to overfit, it’s likely a problem with the representational power of your model: you’re going to need a bigger model, one with more capacity, that is to say, one able to store more information
+ 
 - Improve Generalization
+  -
 
 ### Chapter 6: The Universal Workflow of Machine Learning
 
