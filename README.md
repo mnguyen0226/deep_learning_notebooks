@@ -182,6 +182,7 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
   - 1. Define the task: Understand the problem domain and the business logic underlying what the customer asked for. Collect a dataset, understand what the data represents, and choose how you will measure success on the task
   - 2. Develop a model: Prepare your data so that it can be processed by a ML model, select a model evaluation protocal and a simple baseline to beat. Train a first model that has generalization power and that can overfit, and then regularize and tune your model until you achieve the best possible generalization performance.
   - 3. Deploy the model: Present your work to stakeholders, ship the model to a webserver, a mobile app, a web page, or an embedded device, monitor the model's performance in the wild, and start collecting the data you will nedd to build the next generation model.
+- The hardest things in machine learning are framing problems and collecting, annotating, and cleaning data.
 
 - Define the task
   - In real-world, you won't have the dataset, you start from a prolem.
@@ -202,12 +203,81 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
     - For imbalance classification, ranking or multilabel classificaiotn, use precision and recall, weighted accuracy, and ROC AUC.
 
 - Develop a model
-
+  - Vectorization: Convert the dataset into tensor.
+  - Value Normalization: It isn't safe to feed into the network the data with large value as it can trigger large gradient update and prevent the model to converge. To helps the model learn:
+    - Take small values—Typically, most values should be in the 0–1 range.
+    - Be homogenous—All features should take values in roughly the same range.
+    - Normalize each feature independently to have a mean of 0.
+    - Normalize each feature independently to have a standard deviation of 1.
+    ```python
+    # x is a 2D matrix (samples, features)
+    x -= x.mean(axis=0)
+    x /= x.std(axis=0)
+    ```
+  - Handling Missing Value:
+    - You can just discard the feature OR
+    - If the feature is categorical, create a new feature with "value missing"
+    - If feature is numerical, don't put "0" as it may create a discontinuity in the latent space formed by your features, making it harder for a model trained on it to generalize. Replace it with the average or median value.
+  - Choose an evaluation protocol: The goal of your validation protocol is to accurately estimate what your success metric of choice (such as accuracy) will be on actual production data. 
+    - Maintaining a holdout validation set. This is the way to go when you have plenty of data.
+    - Doing K-fold cross-validation. This is the right choice when you have too few samples for holdout validation to be reliable.
+    - Doing iterated K-fold validation. This is for performing highly accurate model evaluation when little data is available. (less than the one using K-Fold)
+  - Pick the right loss functions and activation function:
+    - Binary classification:
+      + Last-layer activation: sigmoid
+      + Loss Function: binary_crossentropy
+    - Multiclass, single-label classification:
+      + Last-layer activation: softmax
+      + Loss Function: categorical_crossentropy
+    - Multiclass, multilabel classification:
+      + Last-layer activation: sigmoid
+      + Loss Function: binary_crossentropy
+  - Develop a model that overfit
+    - Add layers.
+    - Make the layers bigger.
+    - Train for more epochs.
+    - Monitor the training loss and validation loss and the validation metrics. When you see that the model's performance on the validation data begin to degrade, you've achieved overfitting.
+  - Regularize and tune your model
+    - Once your model is overfir, you need to maximize generalization performance. Keep modify model -> train -> evaluate till you can't improve anymore
+    - Try:
+      - Different architectures; add or remove layers.
+      - Add dropout
+      - If the model is small, add L1 or L2 regularization
+      - Try different hyperparameters (number of units per layer, learning rate,...)
+      - Feature engineer: dev better feature, feature selection
+      - Don't evaluate and tune your model too much
+  - After all, train model on all dataset and evaluate on the test set. If test set evaluation is bad, this means that the validation set is not reliable or you overfit the validation set. In this case, you will need to switch to a better evaluation protocol (iterated K-fold validation)
 
 - Deploy a the model
-
+  - Explain your work to stakeholders and set expectations
+    - Show example of failure mode.
+    - Show metrics on true negative and false negative
+    - Relate the model's performance metrics to business goals.
+  - Ship an inference model:
+    - Transfer code from colab to Python, mobile, embedded system.
+    - Deploy a model as REST API
+  - Deploying a model on a device
+  - Deploying a model in the Browswer:
+  - Maintain your model: '
+    - Avoid concept drift: over time, the characteristics of your production data will change, gradually degrading the performance and relevance of your model.
+    - Keep collecting and annotating data, and keep improving your annotation pipeline over time.
+    - Watch out for changes in the production data. Are new features becoming available?
 
 - Summary
+  - When you take on a new machine learning project, first define the problem at hand:
+    - Understand the broader context of what you’re setting out to do—what’s the end goal and what are the constraints?
+    - Collect and annotate a dataset; make sure you understand your data in depth.
+    -  Choose how you’ll measure success for your problem—what metrics will you monitor on your validation data?
+  - Once you understand the problem and you have an appropriate dataset, develop a model:
+    - Prepare your data.
+    - Pick your evaluation protocol: holdout validation? K-fold validation? Which portion of the data should you use for validation?
+    - Achieve statistical power: beat a simple baseline.
+    - Scale up: develop a model that can overfit.
+    - Regularize your model and tune its hyperparameters, based on performance on the validation data. A lot of machine learning research tends to focus only on this step, but keep the big picture in mind.
+  - When your model is ready and yields good performance on the test data, it’s time for deployment:
+    - First, make sure you set appropriate expectations with stakeholders.
+    - Optimize a final model for inference, and ship a model to the deployment environment of choice—web server, mobile, browser, embedded device, etc.
+    - Monitor your model’s performance in production, and keep collecting data so you can develop the next generation of the model 
 
 ### Chapter 7: Working With Keras: A Deep Dive
 
