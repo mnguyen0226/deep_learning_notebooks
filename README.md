@@ -85,6 +85,14 @@ are too small.
       - the distribution of initial values in the weights of your model
       - your learning rate
       - your batch size
+      
+    ```python
+    # original
+    model.compile(optimizer=keras.optimizers.RMSprop(1.), loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+    
+    # better lr
+    model.compile(optimizer=keras.optimizers.RMSprop(1e-2), loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+    ```
      
   - Problem 2: Training gets started just fine, but your model doesn’t meaningfully generalize: you can’t beat the common-sense baseline you set.
     -  something is fundamentally wrong with your approach
@@ -113,7 +121,61 @@ are too small.
       - A common way to mitigate overfit is to put constraints on complexity of the model by forcing its weight to take only small values, which makes the distribution of the weight value more regular. Weight regularization == adding the loss function of the model a cost associated with having large weights.
       - L1 regularization: The cost added is proportional to the absolute value of the weight coefficients
       - L2 regularization: The cost added is proportional to the square of the value of the weight coefficients L2 regularization is also called weight decay in the context of neural networks.
-   - Dropout:
+      ```python
+      # adding L2 weight regularization
+      model = keras.Sequential([
+       layers.Dense(16,
+       kernel_regularizer=regularizers.l2(0.002),
+       activation="relu"),
+       layers.Dense(16,
+       kernel_regularizer=regularizers.l2(0.002),
+       activation="relu"),
+       layers.Dense(1, activation="sigmoid")
+      ])
+      
+      # L1 regulariztion
+      regularizers.l1(0.001)
+      
+      # simultaneous L1 and L2 regularization
+      regularizers.l1_l2(l1=0.001, l2=0.001)  
+      ```
+   - Dropout: One of the most effective and most used regularization techniques. Randomly dropout (set to 0) a number of ouptu features of the layer during training. At test time, no units are dropped out, instead the layer's output values are scaled down by a factor equal to the dropout rate, to balance for th fact that more units are active than at training time.
+      ```python
+      # at traiing drop 50% of unit
+      layer_output *= np.random.randint(0, high=2, size=layer_output.shape)
+      
+      # at testing scale 50%
+      layer_output *= 0.5 
+      
+      model = keras.Sequential([
+       layers.Dense(16, activation="relu"),
+       layers.Dropout(0.5),
+       layers.Dense(16, activation="relu"),
+       layers.Dropout(0.5),
+       layers.Dense(1, activation="sigmoid")
+      ])
+      ```
+- Summary:
+  - Common ways to maximize generalization and prevent overfit 
+    - Get more training data or better training data.
+    - Dev better feature.
+    - Reduce the capacity of the model.
+    - Add weight regularization (for smaller models).
+    - Add dropout.
+  - The purpose of a machine learning model is to generalize: to perform accurately on never-before-seen inputs. It’s harder than it seems.
+  - A deep neural network achieves generalization by learning a parametric model that can successfully interpolate between training samples—such a model can be
+said to have learned the “latent manifold” of the training data. This is why deep learning models can only make sense of inputs that are very close to what
+they’ve seen during training.
+  - The fundamental problem in machine learning is the tension between optimization and generalization: to attain generalization, you must first achieve a good fit to
+the training data, but improving your model’s fit to the training data will inevitably start hurting generalization after a while. Every single deep learning best
+practice deals with managing this tension.
+  - The ability of deep learning models to generalize comes from the fact that they manage to learn to approximate the latent manifold of their data, and can thus
+make sense of new inputs via interpolation.
+  - It’s essential to be able to accurately evaluate the generalization power of your model while you’re developing it. You have at your disposal an array of evaluation methods, from simple holdout validation to K-fold cross-validation and iterated K-fold cross-validation with shuffling. Remember to always keep a completely separate test set for final model evaluation, since information leaks from your validation data to your model may have occurred.
+  - When you start working on a model, your goal is first to achieve a model that has some generalization power and that can overfit. Best practices for doing
+this include tuning your learning rate and batch size, leveraging better architecture priors, increasing model capacity, or simply training longer.
+  - As your model starts overfitting, your goal switches to improving generalization through model regularization. You can reduce your model’s capacity, add dropout
+or weight regularization, and use early stopping. And naturally, a larger or better dataset is always the number one way to help a model generalize.
 
 ### Chapter 6: The Universal Workflow of Machine Learning
 
