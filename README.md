@@ -286,8 +286,14 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
   - Using Keras callbacks to customize training.
   - Using TensorBoard to monitor training and evaluation metrics.
   - Writing training and evaluation loops from scratch.
--  Progressive disclosure of complexity for model building.
+- Progressive disclosure of complexity for model building.
 ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/progressive_keras.PNG)
+- 3 Ways to build Keras Models:
+  - Sequential API: similar to Python List. It's limited to simple stacks of layers.
+  - Functional API: focuses on graph-like model architecture. It represents a nice mid-point between usability and flexibility. (Most commonly used).
+  - Model subclassing: a low-level option where you write everything yourselve from scratch. This is ideal if you want full control over every little thing. Tradeoff: you won't get access to many built-in Keras features, and you will be more at risk of making mistakes.
+
+
 
 ### Chapter 8: Introduction To Deep Learing For Computer Vision
 
