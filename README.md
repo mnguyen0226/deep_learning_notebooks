@@ -52,7 +52,7 @@ are too small.
   - If your data is divided into many categories, you may cause information bottlenecks if you make the intermediate layers too small.
   - When you’re working with little data, K-fold validation can help reliably evaluate your model.
   
-### Chapter 5: Fundamentals of Machine Learning
+### Chapter 5: Fundamentals of Machine Learning (Important for ML Optimization Interview)
 - Generalization: The Goal of ML
   - **Optimization**: to get the best performance on training dataset.
   - **Generalization**: to get the best performance on testing dataset.
@@ -177,7 +177,29 @@ this include tuning your learning rate and batch size, leveraging better archite
   - As your model starts overfitting, your goal switches to improving generalization through model regularization. You can reduce your model’s capacity, add dropout
 or weight regularization, and use early stopping. And naturally, a larger or better dataset is always the number one way to help a model generalize.
 
-### Chapter 6: The Universal Workflow of Machine Learning
+### Chapter 6: The Universal Workflow of Machine Learning (Important for ML System Design)
+- Universal workflow:
+  - 1. Define the task: Understand the problem domain and the business logic underlying what the customer asked for. Collect a dataset, understand what the data represents, and choose how you will measure success on the task
+  - 2. Develop a model: Prepare your data so that it can be processed by a ML model, select a model evaluation protocal and a simple baseline to beat. Train a first model that has generalization power and that can overfit, and then regularize and tune your model until you achieve the best possible generalization performance.
+  - 3. Deploy the model: Present your work to stakeholders, ship the model to a webserver, a mobile app, a web page, or an embedded device, monitor the model's performance in the wild, and start collecting the data you will nedd to build the next generation model.
+
+- Define the task
+  - In real-world, you won't have the dataset, you start from a prolem.
+  - Frame the problem: Discuss with stakeholder
+    - What will your input data be? What are you trying to predict? 
+    - What type of machine learning task are you facing? Is it binary classification? Multiclass classification? Scalar regression? Vector regression? Multiclass, multilabel classification? Image segmentation? Ranking? Something else, like clustering, generation, or reinforcement learning?
+    - What do existing solutions look like?
+    - Are there particular constraints you will need to deal with? 
+  - Collect a Dataset (most arduous, time-consuming, and costly in ML project)
+    - A good dataset is an asset worthy of care and investment. If you get an extra 50 hours to spend on a project, chances0 are that the most effective way to allocate them is to collect more data rather than search for incremental modeling improvements.
+
+- Develop a model
+
+
+- Deploy a the model
+
+
+- Summary
 
 ### Chapter 7: Working With Keras: A Deep Dive
 
