@@ -292,8 +292,13 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
   - Sequential API: similar to Python List. It's limited to simple stacks of layers.
   - Functional API: focuses on graph-like model architecture. It represents a nice mid-point between usability and flexibility. (Most commonly used).
   - Model subclassing: a low-level option where you write everything yourselve from scratch. This is ideal if you want full control over every little thing. Tradeoff: you won't get access to many built-in Keras features, and you will be more at risk of making mistakes.
-
-
+- Summary:
+  - Keras offers a spectrum of different workflows, based on the principle of progressive disclosure of complexity. They all smoothly inter-operate together.
+  - You can build models via the Sequential class, via the Functional API, or by subclassing the Model class. Most of the time, you’ll be using the Functional API.
+  - The simplest way to train and evaluate a model is via the default fit() and evaluate() methods.  
+  - Keras callbacks provide a simple way to monitor models during your call to fit() and automatically take action based on the state of the model.
+  - You can also fully take control of what fit() does by overriding the train_step() method.
+  - Beyond fit(), you can also write your own training loops entirely from scratch. This is useful for researchers implementing brand-new training algorithms.
 
 ### Chapter 8: Introduction To Deep Learing For Computer Vision
 
