@@ -306,8 +306,18 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
   - Using data augmentation to mitigate overfitting.
   - Using a pretrain convnet to do feature extracton.
   - Fine-tuning a pretrained convnet
+- Introduction to Convnets
+
+- Training a convnet from scratch on small dataset
+
+- Leveraging a pretrained model
+
 
 ### Chapter 9: Advanced Deep Learning For Computer Vision
+- Learn:
+  - The different branches of CV: image classification, image segmentation, object detection.
+  - Modern convnet architecture patterns: residual connection, batch normalization, depthwise separable convolutions.
+  - Techniques for visualizing an interpreting what convnet learn
 
 ### Architectures (on MNIST)
 - ResNet50
@@ -316,8 +326,18 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
 - Ensemble Model (pretrained)
   
 ### Chapter 10: Deep Learning for Time Series
+- Learn: 
+  - Examples of ML tasks that involve timeseries data.
+  - Understanding RNNs
+  - Applying RNNs to a temperature-forecasting example.
+  - Advaned RNN usage patterns.
 
 ### Chapter 11: Deep Learning for Text
+- Learn:
+  - Preprocessing text data for ML applications.
+  - Bag-of-words approaches and sequence-modeling approaches for text processing.
+  - The Transformer architecture.
+  - Sequence-to-sequence learning.
 
 ### Architecture ()
 - RNN
