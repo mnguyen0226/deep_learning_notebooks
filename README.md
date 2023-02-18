@@ -330,7 +330,7 @@ layer, and the different channels in that depth axis no longer stand for specifi
      - [Visualizing Convolutional Neural Networks | Layer by Layer](https://www.youtube.com/watch?v=JboZfxUjLSk)
         - ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/single_channel_image.PNG)
           - Says, we have 28x28x1 image and a Conv2D of 3x3x2. This means that we will slide a filter of size 3x3 twice and output the 26x26x2 output.
-        - ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/2_channel_image.PNG)
+        - ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/2_channels_image.PNG)
           - Says, we have a 26x26x2 image (or 3 RGB channel image), we need to have a Conv2D of (3x3x4). This meanns that we will slide a filter of size 3x3x2 (2 as the depth of the input channel) 4 time, then stack them to create a 24x24x4 output. Note that when we do 3x3x2 filter convolution, we basically slide thru each input channel twice using the 3x3 filter then add them at every patch. We don't have to initialize the filter depth in Keras, only needed the output depth.
         
 
