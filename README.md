@@ -307,7 +307,15 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
   - Using a pretrain convnet to do feature extracton.
   - Fine-tuning a pretrained convnet
 - Introduction to Convnets
-
+  - The fundamental difference between a densely connected layer and a convolutional layer is: Dense layers learn the global patterns in their input feature space (for MNIST, the patterns involving all pixel), whereas Convolutional layers lean local patterns (patterns found in small 2D windows of the inputs).
+  - This key characteristic give convnet 2 interesting properties:
+      - *The patterns they learn are translation-invariant*: After learnin a certain pattern in a lower-right corner of a picture, a convnet can recognize it anywhere (such as upper-left corner). A densely connected model would have to learn the pattern anew if it appeared at a new location. This makes convnets data-efficient when processing image (because the visual world is fundamentally translation-invariant): They need fewer training samples to lean representations that have generalization power.
+      - *They can learn spatial hierachies of patterns*: A first convolution layer will learn small local patterns such as edges, a second convolution layer will learn larger patterns made of features of the first layer,... THis alows convnets to efficiently learn increasingly complex and abstract visual concept, as the visual world is fundamentally spatially hierarchical.
+      -  The convolution operation extracts patches from its input feature map and applies the same transformation to all of these patches, producing an output feature map. This output feature map is still a rank-3 tensor: it has a width and a height. Its depth can be arbitrary, because the output depth is a parameter of the
+layer, and the different channels in that depth axis no longer stand for specific colors as in RGB input; rather, they stand for filters. Filters encode specific aspects of the input data: at a high level, a single filter could encode the concept “presence of a face in the input,” for instance.
+      -  In the MNIST example, the first convolution layer takes a feature map of size (28, 28, 1) and outputs a feature map of size (26, 26, 32): it computes 32 filters over its input. Each of these 32 output channels contains a 26 × 26 grid of values, which is a response map of the filter over the input, indicating the response of that filter pattern at different locations in the input
+      
+      
 - Training a convnet from scratch on small dataset
 
 - Leveraging a pretrained model
