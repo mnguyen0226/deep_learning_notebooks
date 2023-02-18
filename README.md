@@ -322,7 +322,13 @@ layer, and the different channels in that depth axis no longer stand for specifi
          - *Depth of the output feature map*: the number of filters computed by the convolution.
      - Keras: `Conv2D(output_depth, (window_height, window_width))`
      - A convolution works by sliding these windows of 3x3 pr 5x5 over the 3D input feature map, stopping at every possible location, and extracting the 3D patch of surrounding feature `(window_height, window_width, input_depth)`. Each such 3D patch is then transformed into a 1D vector shape `(output_depth,)`, which is done via a tensor product with a leaned weight matrix (called `convolution kernel`, the same kernel is reused across every patch). All of these vectors (one per patch) are then spatially reassembled into a 3D output map shape `(height, width, output_depth)`. Every spatial location in the output feature map corresponds to the same locaiton in the input feature maps (for example, the lowe-right corner of the output contains info about the lower-right corner of the input)
-     
+     ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/convolution_viz .PNG)
+     - [C4W1L08 Simple Convolutional Network Example](https://www.youtube.com/watch?v=3PyJA9AfwSk&t=442s)
+     - [3B1B - But what is a convolution?](https://www.youtube.com/watch?v=KuXjwB4LzSA)
+        - Convolution allows you to smooth out the input signal.
+        - For image processing, convolution allows to blur the image. For NN, convolution allows to sharpen the features in the image.
+     - [Visualizing Convolutional Neural Networks | Layer by Layer](https://www.youtube.com/watch?v=JboZfxUjLSk)
+      
   - The max-pooling operation:
 
 - Training a convnet from scratch on small dataset
