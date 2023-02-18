@@ -311,12 +311,20 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
   - This key characteristic give convnet 2 interesting properties:
       - *The patterns they learn are translation-invariant*: After learnin a certain pattern in a lower-right corner of a picture, a convnet can recognize it anywhere (such as upper-left corner). A densely connected model would have to learn the pattern anew if it appeared at a new location. This makes convnets data-efficient when processing image (because the visual world is fundamentally translation-invariant): They need fewer training samples to lean representations that have generalization power.
       - *They can learn spatial hierachies of patterns*: A first convolution layer will learn small local patterns such as edges, a second convolution layer will learn larger patterns made of features of the first layer,... THis alows convnets to efficiently learn increasingly complex and abstract visual concept, as the visual world is fundamentally spatially hierarchical.
+  - The convolution operation:
       -  The convolution operation extracts patches from its input feature map and applies the same transformation to all of these patches, producing an output feature map. This output feature map is still a rank-3 tensor: it has a width and a height. Its depth can be arbitrary, because the output depth is a parameter of the
 layer, and the different channels in that depth axis no longer stand for specific colors as in RGB input; rather, they stand for filters. Filters encode specific aspects of the input data: at a high level, a single filter could encode the concept “presence of a face in the input,” for instance.
       -  In the MNIST example, the first convolution layer takes a feature map of size (28, 28, 1) and outputs a feature map of size (26, 26, 32): it computes 32 filters over its input. Each of these 32 output channels contains a 26 × 26 grid of values, which is a response map of the filter over the input, indicating the response of that filter pattern at different locations in the input.
- ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/response_filter.PNG)
-      
-      
+     ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/response_filter.PNG)
+     - That is what the term feature map means: every dimension in the depth axis is a feature (or filter), and the rank-2 tensor output[:, :, n] is the 2D spatial map of the response of this filter over the input.
+     - Convolutions are defined by 2 parameters:
+         - *Size of the patches extracted from the inputs*: typically 3x3 or 5x5.
+         - *Depth of the output feature map*: the number of filters computed by the convolution.
+     - Keras: `Conv2D(output_depth, (window_height, window_width))`
+     - A convolution works by sliding these windows of 3x3 pr 5x5 over the 3D input feature map, stopping at every possible location, and extracting the 3D patch of surrounding feature `(window_height, window_width, input_depth)`. Each such 3D patch is then transformed into a 1D vector shape `(output_depth,)`, which is done via a tensor product with a leaned weight matrix (called `convolution kernel`, the same kernel is reused across every patch). All of these vectors (one per patch) are then spatially reassembled into a 3D output map shape `(height, width, output_depth)`. Every spatial location in the output feature map corresponds to the same locaiton in the input feature maps ()
+     
+  - The max-pooling operation:
+
 - Training a convnet from scratch on small dataset
 
 - Leveraging a pretrained model
