@@ -301,18 +301,34 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
   - Beyond fit(), you can also write your own training loops entirely from scratch. This is useful for researchers implementing brand-new training algorithms.
 
 ### Chapter 8: Introduction To Deep Learing For Computer Vision
+- Learn:
+  - Understand CNN (convnets).
+  - Using data augmentation to mitigate overfitting.
+  - Using a pretrain convnet to do feature extracton.
+  - Fine-tuning a pretrained convnet
 
 ### Chapter 9: Advanced Deep Learning For Computer Vision
 
+### Architectures (on MNIST)
+- ResNet50
+- InceptionV3
+- VGG19
+- Ensemble Model (pretrained)
+  
 ### Chapter 10: Deep Learning for Time Series
 
 ### Chapter 11: Deep Learning for Text
+
+### Architecture ()
+- RNN
+- LSTM
+- GRU
+- Transformer
 
 ### Chapter 12: Generative Deep Learning
 
 ### Chapter 13: Best Practices for Real World
 
 ### Chapter 14: Conclusion
-
 
 ## Participated Competitions
