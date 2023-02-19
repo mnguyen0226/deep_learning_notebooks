@@ -416,8 +416,10 @@ layer, and the different channels in that depth axis no longer stand for specifi
       - Order of the data matter a lot: The recent past is far more informative for predicting the next day's temperature than data from 5 days ago. A 1D convnet not able to leverage this fact. In particular, our max pooling and global average pooling largely destroying order information.
     - Use LSTM: Passed the common-sense benchmark.
 
-
-- Understand RNNs
+- Understand RNNs:
+  - Dense or Convolutional model have no memory. Each input shown to them is processed independently, with no state kept between inputs. To have theses two success in TS, we have to process a sequence of data into a data point and show them.
+  - RNN adopts the principle: it processes sequences by iterating through a sequence eleemnts and maintaining a state that contains info relative to what it has seen so far. RNN is a type of model that has internal loop.
+  - The state of the RNN is reset between processing two different, independent sequences (such as two samples in a batch), so you still consider one sequence to be a single data point: a single input to the network. What changes is that this data point is no longer processed in a single step; rather, the network internally loops over sequence elements.
 
 
 - Advanced use of RNNs
