@@ -348,8 +348,12 @@ layer, and the different channels in that depth axis no longer stand for specifi
   - The inputs the model sees are still heavily intercorrelated as they come from a small number of original images. We can't proudce new info; we can only mixing existing info. 
   - Similar as Dropout layer, data augmentation layer is inactive during calls of predict() or evaluate().
   - Thanks for data augmentation and dropout, the model overfit much later. This means that the validation loss and accuracy curves are closer to the training ones at a lower and higher rate respectively. Our model generalized well!
+  - Training model from scratch is great, but we got so little data (if we got a large amount of data to work, it won't be a problem). Next we should try to use pretrained model to improve accuracy.
+ 
 - Leveraging a pretrained model
-
+  - A common and highly effective approach to deep learning on small image datasets is to use a pretrained model. A pretrained model is a model that was previously trained on a large dataset, typically on a large-scale image-classification task. If this original dataset is large enough and general enough, the spatial heirarchy of features learned by the pretrained model can effectively act as a generic model of the visual world. Thus, its features can prove useful for many different CV problem, even through these new problems may involve completely different classes than those of the original task. 
+  - Consider a large convnet trained on the ImageNet dataset (1.4 million labeled image and 1000 different classes).
+  - There are 2 ways to use a pretrained model: *feature-extraction* and *fine-tuning.
 
 ### Chapter 9: Advanced Deep Learning For Computer Vision
 - Learn:
