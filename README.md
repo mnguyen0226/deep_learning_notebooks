@@ -354,6 +354,20 @@ layer, and the different channels in that depth axis no longer stand for specifi
   - A common and highly effective approach to deep learning on small image datasets is to use a pretrained model. A pretrained model is a model that was previously trained on a large dataset, typically on a large-scale image-classification task. If this original dataset is large enough and general enough, the spatial heirarchy of features learned by the pretrained model can effectively act as a generic model of the visual world. Thus, its features can prove useful for many different CV problem, even through these new problems may involve completely different classes than those of the original task. 
   - Consider a large convnet trained on the ImageNet dataset (1.4 million labeled image and 1000 different classes).
   - There are 2 ways to use a pretrained model: *feature-extraction* and *fine-tuning.
+  - Feature Extraction: Here we have 2 ways
+    - Fast Feature Extraction
+      - Run the convolutional base over the dataset, record its output to numpy array on disk and then use data as input to a standablone, densely connected classifier similar to those you saw in chapter 4. This solution is fast and cheap to run, becuase it only requires running the convolutional base once for every input image and the convolutional base is by far the most expensive part of the pipeline. However, this technique won't allow us to use data augmentation.
+      - Extend the model we have (conv_base) by adding Dense layers on top, and run thw whole thing from end to end on input data. This will allow us to use data augmentation, becuase every input image goes thru the conv_base every time it's seen by the model. But for the same reason, this technique is far more expensive than the first.
+    - Feature Extraction with Data Augmentation
+      - First, we need to freeze the convolutional base. Freezing a layer or a set of layers means preventing thei weights from being updated during training. If we don't do this, the representations that were previously learned by the convolutional base will be modified during training.
+  - Fine Tunning: consist of unfreexing a few of the top layers of a frozen model base used for feature extraction, and jointly training both the newly added part of the model and these top layer. It is called fine-tunning because it slightly adjusts the more abstract representations of thte model being reused in order to make them more relevant for the problem at hand. it’s necessary to freeze the convolution base of VGG16 in order to be able to train a randomly initialized classifier on top. For the same reason, it’s only possible to fine-tune the top layers of the convolutional base once the classifier on top has already been trained. If the classifier isn’t already trained, the error signal propagating through the network during training will be too large, and the representations previously learned by the layers being fine-tuned will be destroyed.
+    - Steps:
+      - Add our custom network on top of an already-trained base network.
+      - Freeze the base network.
+      - Train the part we added.
+      - Unfreeze some layers in the base network.
+      - Jointly train both these layers and the part we added.
+
 
 ### Chapter 9: Advanced Deep Learning For Computer Vision
 - Learn:
