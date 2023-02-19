@@ -395,6 +395,22 @@ layer, and the different channels in that depth axis no longer stand for specifi
   - Understanding RNNs
   - Applying RNNs to a temperature-forecasting example.
   - Advaned RNN usage patterns.
+- Different kinds of timeseries tasks.
+  - Timeseries can be any data obtained via measurements at regular intervals, like the daily price of a stock, the hourly electricity consumption of a city or the weekly sales of a store. Unlike iid dataa, working with timeseries involves understanding the dynamics of a system - its periodic cycles, how it trends over time, its regular regime and its sudden spike.
+  - 3 types of tasks:
+    - Classification: assign one or more categorical labels to a time series. Ex: given the timeseries of the activity of a visitor on a website, classify whether the visitor is a bot or a human.
+    - Event detection: Identify the occurence of specific epected event within a continuous data stream.
+    - Anomaly detection: Detect anything unusual happening within a continuous data stream. Anomaly detection is typically done bia unsupervised learning, because you often don't know what kind of anomaly you are looking for, so you can't train on specific anomaly examples.
+
+- A temperature forecasting example
+-
+
+- Understand RNNs
+
+
+- Advanced use of RNNs
+
+- Summary
 
 ### Chapter 11: Deep Learning for Text
 - Learn:
