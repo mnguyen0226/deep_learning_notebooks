@@ -401,9 +401,21 @@ layer, and the different channels in that depth axis no longer stand for specifi
     - Classification: assign one or more categorical labels to a time series. Ex: given the timeseries of the activity of a visitor on a website, classify whether the visitor is a bot or a human.
     - Event detection: Identify the occurence of specific epected event within a continuous data stream.
     - Anomaly detection: Detect anything unusual happening within a continuous data stream. Anomaly detection is typically done bia unsupervised learning, because you often don't know what kind of anomaly you are looking for, so you can't train on specific anomaly examples.
-
+ 
 - A temperature forecasting example
--
+  - Periodicity over multiple timescales is an important and very common property of timeseries data. Whether you’re looking at the weather, mall parking occupancy, traffic to a website, sales of a grocery store, or steps logged in a fitness tracker, you’ll see daily cycles and yearly cycles (human-generated data also tends to feature weekly cycles). When exploring your data, make sure to look for these patterns.
+  - In all our experiments, we’ll use the first 50% of the data for training, the following 25% for validation, and the last 25% for testing. When working with timeseries data, it’s important to use validation and test data that is more recent than the training data, because you’re trying to predict the future given the past, not the reverse, and your validation/test splits should reflect that.
+  - **Research question**: Given the data cover the previous five days and sampled once per hour, can we predict the temperature in 24 hours?
+  - We don't have to vecturize the data as it is numerical. However, since the data is in different sclae, we need to normalize it. WIthin the training data (210,225) timesteps as the training data, we compute the mean and std one the fracture of the data.
+  - **Note**: each dataset yields a tuple (samples, targets), where samples is a batch of 256 samples, each contains 120 consecutive hours of input, and targets is the correct corresponding array of 256 target temperatures. Note that the samples are randomly shuffled so 2 consecutive sequences in batch (samples[0] and samples[1] aren't neccesarily close.
+  - Todo:
+    - Build a common-sense model: assume that the temporal data is continuous: temperature today ~= tomorrow. See what's the MAE.
+    - Use Fully dense-layer: Performance not as good. Why? The densely connected approach first flattened the timeseries, which removed the notion of timefrom the input data. 
+    - Use CNN: performance worse. Why? The convolutional approach treated every segment of the data in the same way, even applying pooling, which destroyed order information.
+      - Weather datase does not has respect for the translation invariance assumption, it only do for a very specific timescale.
+      - Order of the data matter a lot: The recent past is far more informative for predicting the next day's temperature than data from 5 days ago. A 1D convnet not able to leverage this fact. In particular, our max pooling and global average pooling largely destroying order information.
+    - Use LSTM: Passed the common-sense benchmark.
+
 
 - Understand RNNs
 
