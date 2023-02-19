@@ -370,7 +370,13 @@ layer, and the different channels in that depth axis no longer stand for specifi
     - Why not fine-tune more layers? Why not fine-tune the entire convolutional base? You could. But you need to consider the following:
       - Earlier layers in the convolutional base encode more generic, reusable features, whereas layers higher up encode more specialized features. It’s more useful to fine-tune the more specialized features, because these are the ones that need to be repurposed on your new problem. There would be fast-decreasing returns in fine-tuning lower layers.
       - The more parameters you’re training, the more you’re at risk of overfitting. The convolutional base has 15 million parameters, so it would be risky to attempt to train it on your small dataset.
-    
+- Summary:
+  - Convnets are the best type of machine learning models for computer vision tasks. It’s possible to train one from scratch even on a very small dataset, with decent results.
+  - Convnets work by learning a hierarchy of modular patterns and concepts to represent the visual world.
+  - On a small dataset, overfitting will be the main issue. Data augmentation is a powerful way to fight overfitting when you’re working with image data.
+  - It’s easy to reuse an existing convnet on a new dataset via feature extraction. This is a valuable technique for working with small image datasets.
+  - As a complement to feature extraction, you can use fine-tuning, which adapts to a new problem some of the representations previously learned by an existing model. This pushes performance a bit further.
+
 ### Chapter 9: Advanced Deep Learning For Computer Vision
 - Learn:
   - The different branches of CV: image classification, image segmentation, object detection.
