@@ -342,7 +342,12 @@ layer, and the different channels in that depth axis no longer stand for specifi
         - It isn't conducive to learning a spatial hierarchy of features: It's like trying to recognize a digit by only looking at it thru a windows that are 7x7 pixels. We need the features from the last convolution layer to contain info about the totality of the input. By doing this, we make the next conv layer look at an increasingly large window (in terms of the fraction of original input they cover.)
         - The size is too large for small model. This will cause intense overfit.
 - Training a convnet from scratch on small dataset
-
+  - In our case, since the model is relatively larger than the dataset, aka we don't have enough data. Thus overfit happens. 
+  - Data augmentation randomly transform the image to a believable-looking images. 
+  - Goal, at the training time, the model will never see the same exact picture twice. This helps expose the model to more aspects of the data so it can generalize better.
+  - The inputs the model sees are still heavily intercorrelated as they come from a small number of original images. We can't proudce new info; we can only mixing existing info. 
+  - Similar as Dropout layer, data augmentation layer is inactive during calls of predict() or evaluate().
+  - Thanks for data augmentation and dropout, the model overfit much later. This means that the validation loss and accuracy curves are closer to the training ones at a lower and higher rate respectively. Our model generalized well!
 - Leveraging a pretrained model
 
 
