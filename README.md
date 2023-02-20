@@ -440,7 +440,7 @@ layer, and the different channels in that depth axis no longer stand for specifi
 - [RNN Architecture Explained](https://www.youtube.com/watch?v=AsNTP8Kwu80&ab_channel=StatQuestwithJoshStarmer)
 ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/rnn_explained.png)
   - For a single RNN, regardless of the number of timesteps, the weights and biased are the same among them.
-  - Vanilla RNN use ReLU activation function.
+  - Vanilla RNN use Tanh activation function.
   - [Intuition](https://www.youtube.com/watch?v=LHXXI4-IEns&ab_channel=TheA.I.Hacker-MichaelPhi): 
   - Problem: the more RNN that we unroll, the harder it is to train (Vanishing/Exploding Gradient Problem). How? If we set the weight > 1 then it will increase exponentially. Says if we have 50 dates of sequential data, then we have to unrolll RNN 50 times. This large number will make it hard to take small steps to find the optimal weights and biases during gradient descent. The Gradient can be very large or small which make the learning step bounding a lot. If we make the weight < 1 then the Vanishing Gradient Problem will occur. We also call this problem a short term memory due to backpropagation.
   - How do we solve this? LSTM and GRU (as they have gates to determine which info is added and removed from the hidden state).
@@ -468,7 +468,7 @@ layer, and the different channels in that depth axis no longer stand for specifi
       - combine with the input and short term, we determine what percentage of the previous short term to remember
       - Then we will output the new Long-term and Short-term memory.
       ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/lstm_example.png)
-    - How? By using a separated path for Long-Term memory and Short-Term memory, LSTM avoid the exploding/vanishing sequence which allow use to put longer input data.
+    - How? By using a separated path for Long-Term memory and Short-Term memory, LSTM avoid the exploding/vanishing sequence which allow use to put longer input data. LSTM basically saves info fot later, thus preventing older signals from graduallly vanishing during processing. This is similar to residual connection in ResNet. LSTM allows the past info to be reinjected at a later time, thus fighting the vanishing-gradient problem.
 
 - [GRU Architecture]
     ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/lstm_vs_gru.png)
