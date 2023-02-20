@@ -482,7 +482,7 @@ layer, and the different channels in that depth axis no longer stand for specifi
       ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/lstm_example.png)
     - How? By using a separated path for Long-Term memory and Short-Term memory, LSTM avoid the exploding/vanishing sequence which allow use to put longer input data. LSTM basically saves info fot later, thus preventing older signals from graduallly vanishing during processing. This is similar to residual connection in ResNet. LSTM allows the past info to be reinjected at a later time, thus fighting the vanishing-gradient problem.
 
-- [GRU Architecture]
+- [GRU Architecture](https://www.youtube.com/watch?v=8HyCNIVRbSU&ab_channel=TheA.I.Hacker-MichaelPhi)
     ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/lstm_vs_gru.png)
     - GRU is similar to LSTM. It get rid of the cell state and use hiddne state to transfer information. 
     - GRU has 2 gates:
