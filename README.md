@@ -424,9 +424,19 @@ layer, and the different channels in that depth axis no longer stand for specifi
 - Advanced use of RNNs
   - Recurrent Dropout: to fight overfitting.
   - Stacking Recurrent layers: increase the representational power of the model.
+    - As the model are no longer overfit after regularization, we should increase the capacity of the model.
+    - We can either increase the number of units in the layers or adding more layer
   - Bidirectional Recurrent layers: increase accuracy & mitigate forgetting issue.
+    - RNN trained on reversed sequences will learn different representations than one trained on the original sequences
+    ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/bidirectional_rnn.png)
+    
+- Summary:
+  - As you first learned in chapter 5, when approaching a new problem, it’s good to first establish common-sense baselines for your metric of choice. If you don’t have a baseline to beat, you can’t tell whether you’re making real progress.
+  - Try simple models before expensive ones, to make sure the additional expense is justified. Sometimes a simple model will turn out to be your best option.
+  - When you have data where ordering matters, and in particular for timeseries data, recurrent networks are a great fit and easily outperform models that first flatten the temporal data. The two essential RNN layers available in Keras are the LSTM layer and the GRU layer.
+  - To use dropout with recurrent networks, you should use a time-constant dropout mask and recurrent dropout mask. These are built into Keras recurrent layers, so all you have to do is use the recurrent_dropout arguments of recurrent layers.
+  - Stacked RNNs provide more representational power than a single RNN layer. They’re also much more expensive and thus not always worth it. Although they offer clear gains on complex problems (such as machine translation), they may not always be relevant to smaller, simpler problems.
   
-- Summary
 
 ### Chapter 11: Deep Learning for Text
 - Learn:
@@ -481,10 +491,11 @@ layer, and the different channels in that depth axis no longer stand for specifi
 
 - [Transformer Architecture]
 
-### Chapter 12: Generative Deep Learning
+### Chapter 12: Generative Deep Learning (X)
 
-### Chapter 13: Best Practices for Real World
+### Chapter 13: Best Practices for Real World (Scan Through)
+- Ensemble Learning.
 
-### Chapter 14: Conclusion
+### Chapter 14: Conclusion (X)
 
 ## Participated Competitions
