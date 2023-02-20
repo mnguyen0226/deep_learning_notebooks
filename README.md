@@ -421,9 +421,11 @@ layer, and the different channels in that depth axis no longer stand for specifi
   - RNN adopts the principle: it processes sequences by iterating through a sequence eleemnts and maintaining a state that contains info relative to what it has seen so far. RNN is a type of model that has internal loop.
   - The state of the RNN is reset between processing two different, independent sequences (such as two samples in a batch), so you still consider one sequence to be a single data point: a single input to the network. What changes is that this data point is no longer processed in a single step; rather, the network internally loops over sequence elements.
 
-
 - Advanced use of RNNs
-
+  - Recurrent Dropout: to fight overfitting.
+  - Stacking Recurrent layers: increase the representational power of the model.
+  - Bidirectional Recurrent layers: increase accuracy & mitigate forgetting issue.
+  
 - Summary
 
 ### Chapter 11: Deep Learning for Text
