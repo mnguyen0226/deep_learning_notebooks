@@ -433,11 +433,11 @@ layer, and the different channels in that depth axis no longer stand for specifi
   - The Transformer architecture.
   - Sequence-to-sequence learning.
 
-### Architecture ()
-- RNN
-- LSTM
-- GRU
-- Transformer
+### Architectures
+- [RNN Architecture Explained](https://www.youtube.com/watch?v=AsNTP8Kwu80&ab_channel=StatQuestwithJoshStarmer)
+- [LSTM Architecture]
+- [GRU Architecture]
+- [Transformer Architecture]
 
 ### Chapter 12: Generative Deep Learning
 
