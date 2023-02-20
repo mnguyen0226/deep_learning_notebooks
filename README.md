@@ -322,7 +322,7 @@ layer, and the different channels in that depth axis no longer stand for specifi
          - *Depth of the output feature map*: the number of filters computed by the convolution.
      - Keras: `Conv2D(output_depth, (window_height, window_width))`
      - A convolution works by sliding these windows of 3x3 pr 5x5 over the 3D input feature map, stopping at every possible location, and extracting the 3D patch of surrounding feature `(window_height, window_width, input_depth)`. Each such 3D patch is then transformed into a 1D vector shape `(output_depth,)`, which is done via a tensor product with a leaned weight matrix (called `convolution kernel`, the same kernel is reused across every patch). All of these vectors (one per patch) are then spatially reassembled into a 3D output map shape `(height, width, output_depth)`. Every spatial location in the output feature map corresponds to the same locaiton in the input feature maps (for example, the lowe-right corner of the output contains info about the lower-right corner of the input)
-     ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/convolution_viz .PNG)
+     ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/convolution_viz.PNG)
      - [C4W1L08 Simple Convolutional Network Example](https://www.youtube.com/watch?v=3PyJA9AfwSk&t=442s)
      - [3B1B - But what is a convolution?](https://www.youtube.com/watch?v=KuXjwB4LzSA)
         - Convolution allows you to smooth out the input signal.
@@ -434,9 +434,49 @@ layer, and the different channels in that depth axis no longer stand for specifi
   - Sequence-to-sequence learning.
 
 ### Architectures
+- Note: For these sequential model, it depends on the input length (# of days) that we determine the number of time that we unroll the architecture.
+![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/lstm_example2.png)
+
 - [RNN Architecture Explained](https://www.youtube.com/watch?v=AsNTP8Kwu80&ab_channel=StatQuestwithJoshStarmer)
-- [LSTM Architecture]
+![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/rnn_explained.png)
+  - For a single RNN, regardless of the number of timesteps, the weights and biased are the same among them.
+  - Vanilla RNN use ReLU activation function.
+  - [Intuition](https://www.youtube.com/watch?v=LHXXI4-IEns&ab_channel=TheA.I.Hacker-MichaelPhi): 
+  - Problem: the more RNN that we unroll, the harder it is to train (Vanishing/Exploding Gradient Problem). How? If we set the weight > 1 then it will increase exponentially. Says if we have 50 dates of sequential data, then we have to unrolll RNN 50 times. This large number will make it hard to take small steps to find the optimal weights and biases during gradient descent. The Gradient can be very large or small which make the learning step bounding a lot. If we make the weight < 1 then the Vanishing Gradient Problem will occur. We also call this problem a short term memory due to backpropagation.
+  - How do we solve this? LSTM and GRU (as they have gates to determine which info is added and removed from the hidden state).
+  
+- [LSTM Architecture](https://www.youtube.com/watch?v=YCzL96nL7j0&ab_channel=StatQuestwithJoshStarmer)
+  ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/lstm_viz.png)
+  - A type of RNN that avoid vanishing/explosion gradient problem. Instead of using 1 path like an unrolled-RNN, LSTM use 2 paths (1 for long term memory, 1 for short term memory).
+  - LSTM uses sigmoid (turn number to [0, 1]) and tanh activation function (turn number to [-1, 1]).
+  - Architecture:
+  ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/lstm_explained.png)
+    - First Stage (blue) - Forget Gate:
+      - Green line (Cell-state): represent Long-Term memory. As there is no weight and bias to modify it direclty which allow a series of unrolled units without causing explode or vanish.
+      - Pink line (Hidden-state): represent Short-Term memory. This path has weight.
+      - The first stage unit determines what percentage of the Long-Term memory is remembered.
+    - Second Stage (green + orange) - Input Gate:
+      - Orange unit: combines the short terms with the input to create a Potential Long-term memory.
+      - Green unit: determines what percentage of the Potential Memory to add to the long-term memory.
+      - Here, we will combine with the forget stage to determine the new Long-term memory. 
+    - Third Stage: update the Short-Term memory - Output Gate:
+      - Pink: combines the long terms with the input to create a Potential Short-term memory.
+      - Purple: determines what percentage of the Potential Memory to add to the short-term memory.
+    - Thus:
+      - we determine what percentage of previous long term to forget
+      - combined with the input and long term, we determine what percentage of the previous long term to remember.
+      - combine with the input and short term, we determine what percentage of the previous short term to remember
+      - Then we will output the new Long-term and Short-term memory.
+      ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/lstm_example.png)
+    - How? By using a separated path for Long-Term memory and Short-Term memory, LSTM avoid the exploding/vanishing sequence which allow use to put longer input data.
+
 - [GRU Architecture]
+    ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/lstm_vs_gru.png)
+    - GRU is similar to LSTM. It get rid of the cell state and use hiddne state to transfer information. 
+    - GRU has 2 gates:
+      - Reset gate: Act similar to Forget gate.
+      - Update gate: Act similar to Input gate.
+
 - [Transformer Architecture]
 
 ### Chapter 12: Generative Deep Learning
