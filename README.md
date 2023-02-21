@@ -444,6 +444,34 @@ layer, and the different channels in that depth axis no longer stand for specifi
   - Bag-of-words approaches and sequence-modeling approaches for text processing.
   - The Transformer architecture.
   - Sequence-to-sequence learning.
+- NLP About: using ML and large datasets to give computers the ability not to understand language but to ingest a piece of language as input and return something useful:
+  - “What’s the topic of this text?” (text classification)
+  - “Does this text contain abuse?” (content filtering)
+  - “Does this text sound positive or negative?” (sentiment analysis)
+  - “What should be the next word in this incomplete sentence?” (language modeling)
+  - “How would you say this in German?” (translation)
+  - “How would you summarize this article in one paragraph?” (summarization)
+  - etc.
+- Prepare text data
+  - Text vectorization:
+    - First, you standardize the text to make it easier to process, such as by converting it to lowercase or removing punctuation.
+      - Text standardization: a basic form of feature engineering that aims to erase encoding differences that you don’t want your model to have to deal with.
+    - You split the text into units (called tokens), such as characters, words, or groups of words. This is called tokenization.
+      - Word-level tokenization.
+      - N-gram tokenization.
+      - Character-level tokenization.
+    - You convert each such token into a numerical vector. This will usually involve first indexing all tokens present in the data.
+    ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/text_vectorization.png)
+    
+
+- 2 approaches for representing groups of words: Sets and sequences
+- The Transformer architecture
+- Beyond text classification: Sequence-to-sequence learning
+  - Machine Translation Example
+  - Sequence-to-sequence learning with RNN
+  - Sequence-to-sequence learning with Transformer
+- Summary
+
 
 ### Architectures
 - Note: For these sequential model, it depends on the input length (# of days) that we determine the number of time that we unroll the architecture.
