@@ -462,18 +462,27 @@ layer, and the different channels in that depth axis no longer stand for specifi
       - Character-level tokenization.
     - You convert each such token into a numerical vector. This will usually involve first indexing all tokens present in the data.
     ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/text_vectorization.png)
-    
-
+   
 - 2 approaches for representing groups of words: Sets and sequences
-- The Transformer architecture
+  - [A Complete Overview of Word Embeddings](https://www.youtube.com/watch?v=5MaWmXwxFNQ&ab_channel=AssemblyAI)
+  - There are two approachs: Sets (aka bags of words, unigram or bigram) or Sequences. We will focus on sequence model. By using sequence model, we can remove manual feature engineerning.
+  - To do this, you will need to represent the input samples as sequences of integer inddices (1 integer standing for 1 words). Then you will map each integer to a vector obtain ector sequence. Then you will feed these sequences of vector into a stack layers that could cross correlate feature from adjacent vector such as 1D conv net, RNN, Transformer, or bidirectional RNNs and LSTM
+  - What is word embedding?
+
 - Beyond text classification: Sequence-to-sequence learning
   - Machine Translation Example
   - Sequence-to-sequence learning with RNN
   - Sequence-to-sequence learning with Transformer
-- Summary
+  - How does text-translation for sequence-to-sequence model works?
+    - RNN Approach:
+    - Transformer Approach:
+
+- Summary (TBD)
 
 
-### Architectures
+
+
+### Architectures & DP Specific
 - Note: For these sequential model, it depends on the input length (# of days) that we determine the number of time that we unroll the architecture.
 ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/lstm_example2.png)
 
@@ -517,7 +526,22 @@ layer, and the different channels in that depth axis no longer stand for specifi
       - Reset gate: Act similar to Forget gate.
       - Update gate: Act similar to Input gate.
 
-- [Transformer Architecture]
+- [Word Embedding](https://www.youtube.com/watch?v=5MaWmXwxFNQ&ab_channel=AssemblyAI)
+  - There are one-hot encoding approach or TF-IDF, but these methods does not consider the context of the word in the sentence.
+  - Embeddings aim to represent the word in a dense vector, while making sure that the similar words are close to each other in the embedding space. For example, the vector of the word 'tea' and 'coffee' will have a closer distance compared to 'pea'.
+  - How are the word embedding made? Learn from a lot of text. We can have a custom embedding layer in the model. The embedding is very specific with the use case.
+
+- [Transformer Architecture]()
+
+- [Batch Normalization]()
+
+- [Layer Normalization]()
+
+- [Regularization]()
+
+- [Bias & Variance for ML]()
+
+- [ML Model Evaluation]()
 
 ### Chapter 12: Generative Deep Learning (X)
 
