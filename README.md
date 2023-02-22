@@ -384,10 +384,10 @@ layer, and the different channels in that depth axis no longer stand for specifi
   - Techniques for visualizing an interpreting what convnet learn
 
 ### Architectures (on MNIST)
-- ResNet50
-- InceptionV3
-- VGG19
-- Ensemble Model (pretrained)
+- [ResNet50]()
+- [InceptionV3]()
+- [VGG19]()
+- [Auto Encoder for Anomaly Detections]
   
 ### Chapter 10: Deep Learning for Time Series
 - Learn: 
@@ -531,7 +531,17 @@ layer, and the different channels in that depth axis no longer stand for specifi
   - Embeddings aim to represent the word in a dense vector, while making sure that the similar words are close to each other in the embedding space. For example, the vector of the word 'tea' and 'coffee' will have a closer distance compared to 'pea'.
   - How are the word embedding made? Learn from a lot of text. We can have a custom embedding layer in the model. The embedding is very specific with the use case.
 
-- [Transformer Architecture]()
+- [Transformer Architecture](https://www.youtube.com/watch?v=4Bdc55j80l8&t=616s&ab_channel=TheA.I.Hacker-MichaelPhi)
+  - The attention mechanism does not suffer from shorterm memory.
+  - Transformer is the attention based Encoder-Decoder model.
+  - Encoder: output the continuos vector representation of the inputs.
+    - Splitted input sentence is fetch into the input embedding layer which create a learned representation of each word. The size of the vector (dimension of embedding space) is depending on the computational power.
+    - **Unique***: positional encoding layer: As the transformer does not have any recurrent like RNN, we must add info about the embedding. The author use sine (even timestep) and cosine functions (odd timesteps). The 2 functions is chosen as they allow the model easy to learn.
+    - Encoder layer: Map input sequence into an abstract representation vector that encode the info of the input. It contains 2 sub modules: multi-head attention and fully connected network. There also resual connect and Layer normalization.
+      - MHA: Apply self-attention which allow each word in the input to associate other words in the input. First we input the positional encoding into 3 fully connected layer to create a query, key, value vector. These vector concept comes from data retrieval (when you type a query on youtube, the engine will map query to the key, such as video title, associate with candidate video in the database. then it present you the best matched video). The query and key are multiplied to create a scored matrix. The score matrix emphasize how much the word to focus on other words. Then the matrix is scale down by divided by the dimention of the query and passed thru softmax so that the higher the value, the more attention it is and vice versa. This allow the model to be more confident on which word to attend to. Then the attention weight matrix multiply with the value to provide output. The higher the softmax score will allow the model to focus on that word. Then the output is passed thru a fully connected layer. If we use multi-head, we have to split the 
+
+
+  - Decoder: takes the continuos representation and step-by-step generate single output while fetched the previous output.
 
 - [Batch Normalization]()
 
@@ -542,6 +552,14 @@ layer, and the different channels in that depth axis no longer stand for specifi
 - [Bias & Variance for ML]()
 
 - [ML Model Evaluation]()
+
+- [Gated Transformer]()
+
+- [TimeGAN]()
+
+- [Multi-Dimensional Scaling]()
+
+- [Temporal Graph Convolutional Networks (TGCN)]()
 
 ### Chapter 12: Generative Deep Learning (X)
 
