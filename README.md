@@ -200,7 +200,7 @@ or weight regularization, and use early stopping. And naturally, a larger or bet
   - Choose a measure of success
     - Your metric for success will guide all of the technical choices you make throughout the project. It should directly align with your higher-level goals, such as the business success of your customer.
     - For a balanced classification, use ROC and accuracy
-    - For imbalance classification, ranking or multilabel classificaiotn, use precision and recall, weighted accuracy, and ROC AUC.
+    - For imbalance classification, ranking or multilabel classification, use precision and recall, weighted accuracy, and ROC AUC.
 
 - Develop a model
   - Vectorization: Convert the dataset into tensor.
@@ -474,8 +474,7 @@ layer, and the different channels in that depth axis no longer stand for specifi
   - Sequence-to-sequence learning with RNN
   - Sequence-to-sequence learning with Transformer
   - How does text-translation for sequence-to-sequence model works?
-    - RNN Approach:
-    - Transformer Approach:
+    - Text generation is text translation.
 
 - Summary (TBD)
 
@@ -538,20 +537,66 @@ layer, and the different channels in that depth axis no longer stand for specifi
     - Splitted input sentence is fetch into the input embedding layer which create a learned representation of each word. The size of the vector (dimension of embedding space) is depending on the computational power.
     - **Unique***: positional encoding layer: As the transformer does not have any recurrent like RNN, we must add info about the embedding. The author use sine (even timestep) and cosine functions (odd timesteps). The 2 functions is chosen as they allow the model easy to learn.
     - Encoder layer: Map input sequence into an abstract representation vector that encode the info of the input. It contains 2 sub modules: multi-head attention and fully connected network. There also resual connect and Layer normalization.
-      - MHA: Apply self-attention which allow each word in the input to associate other words in the input. First we input the positional encoding into 3 fully connected layer to create a query, key, value vector. These vector concept comes from data retrieval (when you type a query on youtube, the engine will map query to the key, such as video title, associate with candidate video in the database. then it present you the best matched video). The query and key are multiplied to create a scored matrix. The score matrix emphasize how much the word to focus on other words. Then the matrix is scale down by divided by the dimention of the query and passed thru softmax so that the higher the value, the more attention it is and vice versa. This allow the model to be more confident on which word to attend to. Then the attention weight matrix multiply with the value to provide output. The higher the softmax score will allow the model to focus on that word. Then the output is passed thru a fully connected layer. If we use multi-head, we have to split the embedding layer
+      - MHA:
+        - Summary: It's a module in the encoder that calculate the attention weight for the input and produce the output vector with encoded information on how each word to attend to other words in a sequence
+        - Details:: Apply self-attention which allow each word in the input to associate other words in the input. First we input the positional encoding into 3 fully connected layer to create a query, key, value vector. These vector concept comes from data retrieval (when you type a query on youtube, the engine will map query to the key, such as video title, associate with candidate video in the database. then it present you the best matched video). The query and key are multiplied to create a scored matrix. The score matrix emphasize how much the word to focus on other words. Then the matrix is scale down by divided by the dimention of the query and passed thru softmax so that the higher the value, the more attention it is and vice versa. This allow the model to be more confident on which word to attend to. Then the attention weight matrix multiply with the value to provide output. The higher the softmax score will allow the model to focus on that word. Then the output is passed thru a fully connected layer. If we use multi-head, we have to split the embedded input into N part, process attention, then concate prior to linear.
+      - Then, the output multiheader attention is added with the original input (residual connection). Then we go thru Layer Normalization. 
+      - Then it feed thru the point-wise feed forward network (Linear -> Relu -> Linear). The output is then got residual connection to the output and got layer normalized.
+      - The residual helps the model train by allowing gradient to flow thru the network directly. 
+      - The Layer Normalization helps the network stabilize the network.
+      - The pointwise process the attention by transformed it to a different / better representation.
 
+  - Decoder: takes the continuos representation and step-by-step generate single output while fetched the previous output. The job is to generate text sequences. It has 2 Multi-Header Attention modules, A point-wise feedforward layer and a residual connectionn to a Layer Normalization after each sublayer. The decoder is autoregressive, meaning it takes previous output as input as well as the encoder output that contain the attention info of the input. 
+    - For example: "Hello, How are you?" -> "<start> Hola, Como Estas" by generate each groupd of words increasingly.
+    - Multi-head self-attention - similar with the mask as the current word can attend to itself and previous word.
+    - Multi-head attention: match the encoder output with decoder input which decide which decoder input to put focus on.
+    - Then it go thru a point-wise feed forward network for richer representation.
+    - The output is a linear classifier -> softmax: The classifier is as big as the nunber of class your have. For example, that you have 10,000 words, then the output size if 10k. It the provide the probability score of each index. We take the largest probability and the index is the word we translate.
 
-  - Decoder: takes the continuos representation and step-by-step generate single output while fetched the previous output.
-
-- [Batch Normalization]()
+- [Batch Normalization](https://www.youtube.com/watch?v=yXOMHOpbon8&t=444s&ab_channel=AssemblyAI)
+  - **A way to solve the unstable gradient problem in the neural network, make it train faster, and deal with the overfitting problem at the same time.**
+  - Normalzation: Collapse input to be betweeen 0 and 1.
+  - Standardization: Change value to make the mean = 0 and variance = 1. Does not mean the value will be inside the 1 bound.
+  - If you feed into the network unnormalized data, we might have problem in explosion/vanish gradient.
+  - **To Do:** Instead of just normalized our input, we add BatchNorm layer intersection between hidden layer. The input of each hidden layer is standardized, multiply with scale and add with an offset variable. The scale and offset variable are two learning parameters.
+  - **Thus**, Batch norm tries to find a good transformation that work for the data point and help the gradient more stable. 
+  - **Effect:** Batch normalization allow use to train less epoch. While reduce the need for other regularization
 
 - [Layer Normalization]()
 
-- [Regularization]()
+- [Regularization](https://www.youtube.com/watch?v=EehRcPo1M-Q&ab_channel=AssemblyAI)
+  - Use regularization to fix overfitting. Overfitting == high variance.
+  - Regularization limits the flexibility of the model byy lowering the weights. There are couple of methods to do that:
+    - L1/L2 regularization: by adding the weights in the loss calculation to effectively penalize the model with high weights
+      - L1 (Lasso) regularization makes the network sparse. To do: add the sum of the absolute values of the weights to the loss. L1 encourage weights to be 0.0, resulting in a more sparse network (weights with more 0.0 values)
+      - L2 (ridge regression / weight decay): Add the sum of the squared value of the weight to the loss. L2 penalizes larger weights severely, results in less sparse weights.
+    - Dropout: In every training step, each neuron has a probability being inactive.
+    - Early Stopping: Stop the learning once the validation error is minimum (once it overfit)
+    - Data Augmentation.
 
 - [Bias & Variance for ML]()
 
-- [ML Model Evaluation]()
+- [ML Model Evaluation](https://www.youtube.com/watch?v=LbX4X71-TFI&list=PLcWfeUsAys2nPgh-gYRlexc6xvscdvHqX&index=7&ab_channel=AssemblyAI)
+  - Classification:
+    - Accuracy = (# of correctly classified instances) / (# of all instances). However, this metric simply evaluation process too much
+    ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/prec_recall.png)
+    - Precision (Binary Classification) = (TP / (TP + FP)). 
+      - Answer: Out of everything I labeled as positive, how many of them belong to that class?
+      - When to use? to compare models
+    - Recall (Binary Classificationn) = (TP / (TP + FN)). 
+      - Answer: Out of everything belong to positive class, how many of them I was able to capture
+      - When to use?
+    - F1 = combination of precision and recall. 
+      - When to use?
+    - ROC: Compare TP vs FP.
+    - AUC: 
+    - Crossentropy: Calculate the distance between the 2 probability distribution.
+      - Binary_Crossentropy
+      - Crossentropy
+  - Regression
+    - MAE (Mean Absolution Error)
+    - RMSE (Root Mean Squared Error)
+    - R^2 (Coefficient of Determination): How well your model fit the data (your model's curve vs actual data)
 
 - [Gated Transformer]()
 
@@ -560,6 +605,10 @@ layer, and the different channels in that depth axis no longer stand for specifi
 - [Multi-Dimensional Scaling]()
 
 - [Temporal Graph Convolutional Networks (TGCN)]()
+
+- [Transfer Learning](https://www.youtube.com/watch?v=DyPW-994t7w&ab_channel=AssemblyAI)
+  - Use the model learned from another task to learn a new task. We use the pretrained model to fine-tune for another task.
+  - Why don't we train from scratch? Transfer Learning solved the problem of lacking of data.
 
 ### Chapter 12: Generative Deep Learning (X)
 
