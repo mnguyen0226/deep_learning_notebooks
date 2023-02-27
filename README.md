@@ -341,6 +341,7 @@ layer, and the different channels in that depth axis no longer stand for specifi
       - But why do this? Why not just keep a large feature map?
         - It isn't conducive to learning a spatial hierarchy of features: It's like trying to recognize a digit by only looking at it thru a windows that are 7x7 pixels. We need the features from the last convolution layer to contain info about the totality of the input. By doing this, we make the next conv layer look at an increasingly large window (in terms of the fraction of original input they cover.)
         - The size is too large for small model. This will cause intense overfit.
+        - We use max pooling so that the NN can focus on the most important features. If we don't do this, the NN will be too sensitve.
 - Training a convnet from scratch on small dataset
   - In our case, since the model is relatively larger than the dataset, aka we don't have enough data. Thus overfit happens. 
   - Data augmentation randomly transform the image to a believable-looking images. 
@@ -413,7 +414,8 @@ layer, and the different channels in that depth axis no longer stand for specifi
     - Use Fully dense-layer: Performance not as good. Why? The densely connected approach first flattened the timeseries, which removed the notion of timefrom the input data. 
     - Use CNN: performance worse. Why? The convolutional approach treated every segment of the data in the same way, even applying pooling, which destroyed order information.
       - Weather datase does not has respect for the translation invariance assumption, it only do for a very specific timescale.
-      - Order of the data matter a lot: The recent past is far more informative for predicting the next day's temperature than data from 5 days ago. A 1D convnet not able to leverage this fact. In particular, our max pooling and global average pooling largely destroying order information.
+      - Order of the data matter a lot: The recent past is far more informative for predicting the next day's temperature than data from 5 days ago. A 1D convnet not able to leverage this fact. In particular, our 
+      and global average pooling largely destroying order information.
     - Use LSTM: Passed the common-sense benchmark.
 
 - Understand RNNs:
