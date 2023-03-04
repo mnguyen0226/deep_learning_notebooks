@@ -389,7 +389,78 @@ layer, and the different channels in that depth axis no longer stand for specifi
 - Learn:
   - The different branches of CV: image classification, image segmentation, object detection.
   - Modern convnet architecture patterns: residual connection, batch normalization, depthwise separable convolutions.
-  - Techniques for visualizing an interpreting what convnet learn
+  - Techniques for visualizing an interpreting what convnet learn.
+
+### 3 essential computer vision tasks
+- Image classification: with the goal to assign one or more labels to an image.
+- Image segmentation: with the goal to segment or partition an image into different areas.
+- Object detection: with the goal to draw bounding boxes around objects of interest in an image
+  ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/3_task_cv.png)
+    - This task is too complicated, visit [RetinaNet](https://keras.io/examples/vision/retinanet/)
+
+### Image Segmentation example
+- Image segmentaiton is about using a model to assign a class to each pixel in an image, thus segmenting the image into different zones.
+- There are 2 types:
+  - Semantic segmentation: if there are 2 cats then both are labeled "cats".
+  - Instance segmentation: if 2 cats, then 1 will be "cat 1" and other will be "cat 2".
+
+- Convnet layer: stacking Conv2D layers with gradually increase filter sizes. We downsample out images 3 times by a factor of 2 each. The purpose of this first half is to encode images into smaller feature maps, where each spatial location (pixel) contains info about a large spatial chunk of the original image.
+- Note that this architecture, we don't use MaxPooling2D. Both are ways to downsample.
+  - When we do downsampling by adding strides, we care a bout spatial location of info in the image in image segmentation since we need to produce per-pixel target tasks as output of the model.
+  - When we do 2x2 max pooling, we completely destroy location info within each pooling windowe: You return 1 scalar value per window, with 0 knowledge of which of the 4 locations in the windows the value came from.
+  - Maxpooling perform well in classification task, they will hurt us for segmentation task.
+  - Strided convolutions do a better job at downsampling feature maps while retaining location information.
+- The second half is Conv2DTranspose. We want to inverse the transformation from 25x25x256 to 200x200x3. We call this upsample.
+- Note that we can see that whatever settings of the downsample has, the upsample also has.
+- [Padding](https://www.youtube.com/watch?v=smHa2442Ah4&ab_channel=DeepLearningAI)
+  - 6x6 * 3x3 = 4x4
+  - Without padding, you shrink the output and throw away a lot of the info from the edges of the image.
+  - "Valid Convolution" == no padding.
+  - "Same Convolution" == padding. The output size is the same as the input size.
+  - There's a reason whhy the filter is odd (3,5,7,...) but not even:
+    - So that the padding can be natural and if use same padding, we don't have to worry about adding left or right more. Symetrically
+    - When you have odd dim filter, we have a center of the filter, use as point of reference when describing the filter.
+  - **Why use padding?** In addition to the aforementioned benefit of keeping the spatial sizes constant after CONV, doing this actually improves performance. If the CONV layers were to not zero-pad the inputs and only perform valid convolutions, then the size of the volumes would reduce by a small amount after each CONV, and the information at the borders would be “washed away” too quickly.
+- [Strided Convolution](https://www.youtube.com/watch?v=tQYZaDn_kSg&ab_channel=DeepLearningAI)
+  - [Ref](https://compsci682.github.io/notes/convolutional-networks/)
+  - **Why use stride of 1 in CONV?** Smaller strides work better in practice. Additionally, as already mentioned stride 1 allows us to leave all spatial down-sampling to the POOL layers, with the CONV layers only transforming the input volume depth-wise.
+- Equation: [n + 2p -f] / s + 1
+
+### Modern Convnet Architecture Patterns
+- A model's architecture is the sum of choices that went into creating it: which layers to use, how to configure them, and in what arrangement to connect them. Similar to feature engineering, a good hypothesis space encodes prior knowledge that you have about the problem in hand and its solution. For instance, using conv layer means that you know in advance that the relevant patterns present in your input images are translation-invariant.
+- A good model architecture is the one that reduces the size of the search space or make it easier to converge to a good point of the search space. Model architecture make the problem easier for gradient descent to solve. 
+- Note: when building architecture, it is not much about science but about best practice
+
+- Modularity, hierarchy, and reuse
+  - Deep learning reuse layer, however, there are so much layers that we can actually stack up due to vanishing gradients.
+
+- Residual connections
+  - If your function chain is too deep, the noise starts overwhelm gradient info and backpropagation stops working. This is called vanishinng gradients problem.
+  - Solution: force each function in the chain to be nondestructive, aka to retain a noiseless version of the information contained in the prevvious input.
+  - It is noted that you need to use padding="same" to avoid downsampling so that you can add a residual conncetion. You should avoid maxpooling as well
+
+- Batch Normalization
+  - Normalization is a category of methods that makes different samples seen by an ML model more similar to each other, whcih helps the model learn and generalize well to new data.
+  - BatchNorm adaptively normalize data even as the mean and variance change over time during training. During training, it uses the mean and variance of the current batch of data to normalize samples
+```python
+# how to use batch norm
+x = layers.Conv2D(32, 3, use_bias=False)(x)
+x = layers.BatchNormalization()(x)
+x = layers.Activation("relu")(x)
+```
+
+- Depthwise separable convolutions
+
+
+- Putting it together: A mini Xception-like model
+
+### Interpreting what convnets learn
+- Visualizing intermediate activations
+
+- Visualizing convnet filters
+
+- Visualizaing heatmaps of class activation
+
 
 ## Architectures (on MNIST)
 - [ResNet50](https://www.youtube.com/watch?v=ZILIbUvp5lk&ab_channel=DeepLearningAI)
