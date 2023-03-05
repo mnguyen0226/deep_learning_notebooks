@@ -18,6 +18,14 @@
 - To train a model, you can use the fit() method, which runs mini-batch gradient descent for you. You can also use it to monitor your loss and metrics on validation data, a set of inputs that the model doesn’t see during training.
 - Once your model is trained, you use the model.predict() method to generate predictions on new inputs.
 
+### What's the difference between Keras and Tensorflow?
+- Keras is a part of Tensorflow and a wrapper of Tensorflow. Keras provides abstraction and building blocks for dev and shipping ML solutions witth high iteration velocity.
+- TF2 is an ML platform. You can thinnk of it as an infrastructure layer for differentiall programming with 4 keys ability
+  - Efficiently execute low-level tensor operations on CPU, GPU, or TPU
+  - Computing the gradient of arbitrary differentiable expressions
+  - Scaling compuation to many devices such as clusters of hundreds of GPU
+  - Exporting programs (graphs) to external runtimes such as servers, browsers, mobile and embedded devices.
+
 ## Chapter 4: Getting Started With Neural Networks: Classification and Regression
 ### Binary Classification: IMDB Dataset
 - Preprocessing: sequences of words can be encoded as binary vectors or other types of encoding
@@ -450,17 +458,52 @@ x = layers.Activation("relu")(x)
 ```
 
 - Depthwise separable convolutions
-
-
+  - Depthwise separable convolutional layer can replace Conv2D that allow lower parameters and perform slightly better. This layer performs a spatial convolution on each channel of its input independently before mixing output channels via a pointwise convolution
+  ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/depthwise_sc_layer.png)
+  - [Video on DSC](https://www.youtube.com/watch?v=T7o3xvJLuHk&ab_channel=CodeEmporium)
+  - Says that we have a 6x6x3 images that go thru 5 filters of 3x3. What is the total number of multiplication (of convolution operation - expensive)? 
+    - static filter: 3x3x3 operator 
+    - convolute thru image: 3x3x3 x 4x4
+    - we have 5 filters: 5 x 3x3x3 x 4x4 = 2160 operations
+  - Now let's consider depthwise separable convolution:
+    - Stage 1: Depthwise convolution
+      - Split 3 channels
+      - For each chanel, we do a 3x3 convolution, then combine them. Thus the total of operation is 3 x 3x3 x 4x4
+    - Stage 2: Pointwise convolution
+      - Use 5 filter of size 1x1 to convolute thru the output of depthwise convolution
+      - num multiplication of 1 static filter: 1x1x3
+      - num multiplication of 1 convolutional filter: 4x4x3
+      - Do it for all 5 filter: 5 x 4x4x3
+    - Totoal (3 x 3x3 x 4x4) + (5 x 4x4x3) = 672!
+  - The idea of DSC comes from the Xception model. This architecture outperform InceptionV3 in Google JFT image dataset. 
+  - MobileNet proof that while the accuracy slightly decrease on ImageNet but the number of mat-mul and parameters are less.
+  - Depthwise separateble convolution relies on the assumption that spatial locations in intermediate activate are highly correlated, but different channles are highly independent. This assumption is generally true for image representations leaned by DNN.
 - Putting it together: A mini Xception-like model
+  - Convnet architecture principles:
+    - Your model should be organized into repeated blocks of layer, usually made of multiple convolution layers and a max pooling layer
+    - The number of filter in your layers should increase as the size of the spatial feature maps decrease
+    - Deep and narrow is better than broad and shallow
+    - Introducing residual connection around blocks of layers helps you train deeper networks.
+    - It can be beneficial to introduce batch noramalization layers after your convolution layers.
+    - It can be beneficial to replace Conv2D layers with SeparableConv2D layers, which are more parameter-efficient.
 
-### Interpreting what convnets learn
+### Interpreting what convnets learn (X)
 - Visualizing intermediate activations
 
 - Visualizing convnet filters
 
 - Visualizaing heatmaps of class activation
 
+### Summary
+- There are three essential computer vision tasks you can do with deep learning:
+image classification, image segmentation, and object detection.
+- Following modern convnet architecture best practices will help you get the
+most out of your models. Some of these best practices include using residual
+connections, batch normalization, and depthwise separable convolutions.
+- The representations that convnets learn are easy to inspect—convnets are the
+opposite of black boxes!
+- You can generate visualizations of the filters learned by your convnets, as well as
+heatmaps of class activity.
 
 ## Architectures (on MNIST)
 - [ResNet50](https://www.youtube.com/watch?v=ZILIbUvp5lk&ab_channel=DeepLearningAI)
@@ -721,6 +764,42 @@ x = layers.Activation("relu")(x)
 ## Chapter 12: Generative Deep Learning (X)
 
 ## Chapter 13: Best Practices for Real World (Scan Through)
-- Ensemble Learning.
+- Learn:
+  - Hyperparameter tuning
+  - Model enssembling
+  - Mixed-precisionn training
+  - Training Keras models on multiple GPUs or on a TPU.
+
+### Getting the most out of your models
+- Hyperparameter optimization (TBD)
+  - There are many technique to optimize: Bayesian optimization, genetic algorithms, simple random sesarch,...
+  - There are some problem: Doing grid search are very expensive or you might found that there are improvements. However are these improvements based random initialization.
+  - There is a solution: KerasTuner! The tool has various built-in: RandomSearch, BayesianOptimization and Hyperband
+- Model ensembling
+  - By pooling their perspectives together, you can get a far more accurate description of the data.
+  - For instance, for the classification task, the easiest way to pool the predictions of a set of classifier (to ensemble the classifiers) is to average their predictions at inference time. However, this way is only good is the classifier are more or less equally good.
+  ```python
+  preds_a = model_a.predict(x_val)
+  preds_b = model_b.predict(x_val)
+  preds_c = model_c.predict(x_val)
+  preds_d = model_d.predict(x_val)
+  final_preds = 0.25 * (preds_a + preds_b + preds_c + preds_d)
+  ```
+  - A better way is to ddo weight average, where the weights are learned on the validation data. Typically, the better classifiers are are given a higher weight, the worse classifiers are give a lower weight. To search for a good set of ensembling weights, you can use random search or a simple optimization algorithm such as the Nelder-Mead algorithm
+  ```python
+  preds_a = model_a.predict(x_val)
+  preds_b = model_b.predict(x_val)
+  preds_c = model_c.predict(x_val)
+  preds_d = model_d.predict(x_val)
+  final_preds = 0.5 * preds_a + 0.25 * preds_b + 0.1 * preds_c + 0.15 * preds_d
+  ```
+  - The key to making ensembling work is the diversity of the set of classifiers. If your models are biased in different ways, the biases will cancel each other out, and the ensemble will be more robust and more accurate. Thus, you should ensemble models that are as good as possible while being as different as possible.
+  - Note: it is a waste of time to ensenble same network trained several times independently, from different random initialization.
+
+### Scaling Up modeling Training (TBD)
+- Faster training direclty improves the quality of your deep learning solution
+
+
+### Summary (TBD)
 
 ## Chapter 14: Conclusion (X)
