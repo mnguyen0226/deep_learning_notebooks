@@ -512,11 +512,72 @@ heatmaps of class activity.
   - [Why does it work?](https://www.youtube.com/watch?v=RYth6EbBUqM&ab_channel=DeepLearningAI)
     - The skip connection (identity connection is easy for ResNet to learn) and it doesn't hurt the model compared to plain network. The residual connection basically preserve convolution to the next layer.
   - [In the paper](https://www.youtube.com/watch?v=GWt6Fu05voI&ab_channel=YannicKilcher), They try all different size from 20 -> 1202 layers. Yep, we try everything, they study depth and out performed everyone.
+
+  ```python
+  inputs = keras.Input(shape=(32, 32, 3))
+  x = layers.Rescaling(1./255)(inputs)
+
+  residual = x
+  x = layers.Conv2D(filters=32, 3, activation="relu", padding="same")(x)
+  x = layers.Conv2D(filters=32, 3, activation="relu", padding="same")(x)
+  residual = layers.Conv2D(filters, 1, strides=2)(residual)  
+  x = layers.add([x, residual])
+  
+  residual = x
+  x = layers.Conv2D(filters=64, 3, activation="relu", padding="same")(x)
+  x = layers.Conv2D(filters=64, 3, activation="relu", padding="same")(x)
+  residual = layers.Conv2D(filters, 1, strides=2)(residual)   
+  x = layers.add([x, residual])
+
+  residual = x
+  x = layers.Conv2D(filters=64, 3, activation="relu", padding="same")(x)
+  x = layers.Conv2D(filters=64, 3, activation="relu", padding="same")(x)
+  x = layers.add([x, residual])
+  x = layers.GlobalAveragePooling2D()(x)
+  outputs = layers.Dense(1, activation="sigmoid")(x)
+  model = keras.Model(inputs=inputs, outputs=outputs)
+  ```
+  ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/resnet19.png)
+
+
 - [VGG19](https://www.youtube.com/watch?v=YcmNIOyfdZQ&ab_channel=SebastianRaschka)
   - A network with 19 convolutional layer, with the later layer increase the depth of the kernel and reduce the size of the input. 
   - It works because it allows building deeper network.
   - Unique: Focus on multiple small convolutional layer (maintain the size) rather than 1 big convolutional. This also allow the user to extract smaller feature and build up bigger feature on the later layer.
+  ```python
+  model = Sequential()
   
+  model.add(Conv2D(input_shape=(224,224,3),filters=64,kernel_size=(3,3),padding="same", activation="relu"))
+  model.add(Conv2D(filters=64,kernel_size=(3,3),padding="same", activation="relu"))
+  model.add(MaxPool2D(pool_size=(2,2),strides=(2,2)))
+  
+  model.add(Conv2D(filters=128, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(Conv2D(filters=128, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(MaxPool2D(pool_size=(2,2),strides=(2,2)))
+  
+  model.add(Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(Conv2D(filters=256, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(MaxPool2D(pool_size=(2,2),strides=(2,2)))
+  
+  model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(MaxPool2D(pool_size=(2,2),strides=(2,2)))
+  
+  model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(Conv2D(filters=512, kernel_size=(3,3), padding="same", activation="relu"))
+  model.add(MaxPool2D(pool_size=(2,2),strides=(2,2)))
+  
+  model.add(Flatten())
+  model.add(Dense(units=4096,activation="relu"))
+  model.add(Dense(units=4096,activation="relu"))
+  model.add(Dense(units=2, activation="softmax"))
+  ```
+  ![](https://github.com/mnguyen0226/kaggle_notebooks/blob/main/docs/imgs/vgg16.png)
+
+
 - [Auto Encoder for Anomaly Detections](https://www.youtube.com/watch?v=2_h61v6mgRc&ab_channel=DigitalSreeni)
   - It's the architecture where the output is the input.
   - The idea is to compless image into latent-space (high-dim to small-dim). The output will never be the same as input as we have reconstruction loss.
