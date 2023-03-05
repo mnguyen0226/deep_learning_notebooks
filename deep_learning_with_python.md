@@ -755,13 +755,24 @@ heatmaps of class activity.
 ### [Batch Normalization](https://www.youtube.com/watch?v=yXOMHOpbon8&t=444s&ab_channel=AssemblyAI)
 - **A way to solve the unstable gradient problem in the neural network, make it train faster, and deal with the overfitting problem at the same time.**
 - Normalzation: Collapse input to be betweeen 0 and 1.
-- Standardization: Change value to make the mean = 0 and variance = 1. Does not mean the value will be inside the 1 bound.
+- Standardization: Change value to make the mean = 0 and variance = 1. Does not mean the value will be inside the 1 bound. When we put all the point in the distribution, their mean is at 0 and the most amount of values are between -1 and 1
 - If you feed into the network unnormalized data, we might have problem in explosion/vanish gradient.
 - **To Do:** Instead of just normalized our input, we add BatchNorm layer intersection between hidden layer. The input of each hidden layer is standardized, multiply with scale and add with an offset variable. The scale and offset variable are two learning parameters.
 - **Thus**, Batch norm tries to find a good transformation that work for the data point and help the gradient more stable. 
-- **Effect:** Batch normalization allow use to train less epoch. While reduce the need for other regularization
+- **Effect:** Batch normalization allow use to train less epoch. While reduce the need for other regularization.
+```python
+x = layers.Conv2D(32, 3, use_bias=False)(x)
+x = layers.BatchNormalization()(x)
+x = layers.Activation("relu")(x)
+```
 
-### [Layer Normalization - TBD]()
+### [Layer Normalization](https://www.youtube.com/watch?v=2V3Uduw1zwQ&t=44s&ab_channel=AssemblyAI)
+- An improvement over Batch Normalization. BatchNorm can't be used for sequence data. Additionally, if the batch size is too small, then the std and mean when standardize can't represent the std and mean of the dataset.
+- What's the difference between batch normalization and layer normalization?
+  - Says we have a input table of M cols (features) and N rows (samples), then batch norm will standardize in terms of features, while layer norm will standardize in terms of samples.
+- Adv: There are no dependency on batch size in layer norm. We can do the same calculation in both training time and test time. Meanwhile 
+- This is why Layer normalization is better for RNN. 
+- Dis: Not always works for CNN.
 
 ### [Regularization](https://www.youtube.com/watch?v=EehRcPo1M-Q&ab_channel=AssemblyAI)
 - Use regularization to fix overfitting. Overfitting == high variance.
