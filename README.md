@@ -1,7 +1,5 @@
-# Kaggle Competitions
+# Deep Learning with Python
 
-## Deep Learning with Python
+# Data Analysis with Python
 
-## Data Analysis with Python
-
-## Participated Competitions
+# Deep Learning with PyTorch
