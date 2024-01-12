@@ -173,3 +173,111 @@ Random selection of data can reduce biase and yield a higher quality dataset tha
 - For evetns that occur at a constannt rate, the number of events per unit of time or space can be modeled as Poisson distributionn.
 - You can also model the time or distance between one event and the next as an exponential distribution
 - A changing event rate over time (ie, an increase probability of device failure) can be modeled with the Weibull distribution.
+
+# 3. Statistical Experiments and Significance Testing
+- Design of experiments is a cornerstone of the practice o statistics, with application in virtually all areas of research. The goal is to design an experiment in order to confirm or reject a hypothesis.
+- Data scientists often need to conduct continual experiments, particularly regarding user interface and product marketing. 
+- Inference = apply the experiment results, which involve a limted set of data, to a larger process or population. Here is the classifcal statistical inference pipeline
+  - Step 1. Formulate hypothesis.
+  - Step 2. Design experiment.
+  - Step 3. Collect data.
+  - Step 4. Inference / Conclusion.
+
+## A/B Testing
+- An A/B test is an experiment with two groups to establish which of two treatments, products, procedures, or the like is superior. Of ten one of the two treatments is the standard existing treatment, or no treatmentt. If a standard (or no) treatement is used, it is called the control. A typical hypothesis is that a new treatment is better than the control.
+- Terms:
+  - Treatment = something (drug, price, web headline) to which a subject is exposed.
+  - Treatment group = a group of subjects exposed to a specific treatment.
+  - Control group = a group of subject exposed to no (or standard) treatment.
+  - Randomization = the process o randomly assigning subjects to treatments.
+  - Subjects = the items (web vistors, patients,...) that are exposed to treatments.
+  - Test statistic = the metric used to measure the efect of the treatment.
+
+- A/B tests are common in web design and marketing, since results are so readily measured. For example:
+  - Testing two soil treatments to determin which produces better seed germination
+  - Test two price to determine which yield more net profit.
+  - Test two web headlines to determine which produces more clicks.
+  - Test two web ads to determine which generates more conversions.
+
+- A proper A/B test has subjects that can be assigned to one treatment or another. The subject might be a person, a plant seed, or a web visitor; the key is that the subject is exposed to the treatment. Ideally, subjects are randomized (assigned randomly) to treatments. In this way, you know that any difference between the treatment groups is due to one of two things:
+  - The effect of the different treatments.
+  - Luck of draw in which subjects are assigned to which treatments (ie, the random assignment may be resulted in the naturally better-performing subjects being concentrated in A or B)
+
+## Why Have a Control Group?
+- Why not skip the control group and just run an experiment applying the treatment of interest to only one group, and compare the outcome to prior experience?
+- Well, without a control group, there is no assurance that "all other things are equal" and that any difference is readlly due to the treatment (or to chance). When you have a control group, it is subject to the same conditionals (except for the treatment of interest) as the treatment group. If you simply make a comparison to "baseline" or prior experience, other factors besides the treatment, might differ.
+- A/B testing in data science is typically used in a web context. Treatments might be the design of a web page, the price of a product, the wording of a headline. Some thought is required to preserve the principles of randomization. Typically the subject in the experiment is a web visitor, the outcomes we are interested in measuring are clicks, purchases, visit duration, number of pages visited, weather a particular page is visited and the like. Multiple behaviour metrics might be collected and be of interest, but if the experiment is expected to lead to a decision between treatment A and treatment B, a single metric, or test statistic, needs to be established beforehand. Selecting a test statistic after the experiment is conducted opens the door to researcher bias.
+
+## Why Just A/B? Why Not C, D,...?
+- A/B tests are popular in the marketing and ecommerce worlds, but are far from the only type of statistical experiment. Additional treatments can be included.Subjects might have repeated measurements taken. 
+- Data scientists are less interested in the question: "Is the diference between price A and price B statistically significantt?" than in the question: "Which, out of multiple possible prices, is best?"
+- In summary, subjects are assigned to 2 or more groups that are treated exactly alike, except that the treatment under study differ from one group to another.
+
+## Hypothesis Tests
+- Hypothesis tests (significance tests) are ubiquitous in the traditional statistical analysis of published research. Their purpose is to help you learn whether random chance might be responsible for an observed effect.
+- Terms:
+  - Null hypothesis = the hypothesis that chance is to blame.
+  - Alternative hypothesis = counterpoint to null (what you hope to prove)
+  - One-way test = hypothesis test that counts chance results only in one direction.
+  - Two-way test = hypothesis test that counts chance results in two directions.
+- An A/B test is typically constructed with a hypothesis in mind. 
+  - For instance, a hypothesis might be that price B produces higher profit.
+- Why do we need a hypothesis? Why not just look at the outcome of the experiment and go with whichever treatment does better?
+- The answer lies in the tensdency of the human mind to underestimate the scope of the natural random behaviour.
+
+## Misinterpreting Randomness
+- You can observe the human tendency to underestimate randomness in this experiment. Ask several friends to invent a series of 50 coin flips: have them write down a series of random Hs and Ts. Then ask them to actually flip a coin 50 times and write down a results. Have them put the real coin flip results in one pile, and the made-up results in another. It is easy to tell which results are real: The real ones will have the longer runs of Hs or Ts. In a set of 50 real coin flips, it is not at all unusal to see 5 or 6 Hs or Ts in a row. However, when most o us  are inventing random coin flips and we have gotten 3 or 4 Hs in a row, we tell ourselves that, for the series to look random, we had better switch to T.
+- The other side oo this coin, so to speak, is that when we do see the real-world equivalent of 6 Hs in a row (e.g, when one headline outperforms another by 10%), we are inclined to attribute it to something real, not just to chance.
+- In a properly designed A/B test, you collect data on treatments A and B in such a way that any observed diference between A and B must be due to either:
+  - Random chance in assignment of subjects.
+  - A true difference between A and B.
+
+## The Null Hypothesis
+- Hypothesis tests use the following logic: "Given the human tendency to react to unusual but random behaviour and interpret it as something meaningful and real, in our experiments, we will require prood that the difference between groups is more extreme than what chance might reasonably produce". This involves a baseline assumption that the treatments are equivalent, and any difference between the groups is due to chance. This baseline assumption is termed the null hypothesis. Our hope, then, is that we can in fact prove the null hypothesis wrong and show that the outcomes for groups A and B are more diffent than what chance might produce.
+- A null hypothesis is a logical construct embodying the notion that nothing special has happened, and any effect you observe is due to random chance.
+- The hypothesis test assumes that the null hypothesis is true, creates a "null model" (a probability model), and tests whether the efect you observe is a reasonable outcome of that model.
+
+## Reampling
+- Resampling in statistics means to repeately sample values from observed data, with a general goal of assessing random variability in a statistic. It can also be used to assess and improve the accuracy of some ML model.
+- 2 types of resampling procedures: bootstrap and permutation test.
+- Permutation test = the procedure of combining 2 or more samples together and randomly (or exhaustively) reallocating the observations to resamples.
+  - Randomization test, random permutation test, exact test.
+- Resampling = Drawing additional samples ("resamples") from an observed dataset.
+- With or without replacement = in sampling, whether or not an item is returned to the sample before the next draw
+
+
+## Permutation Test
+- Two or more samples are involved, typically the groups in an A/B or other hypothesis test. We test by randomly drawing groups from this combined set and seeing how much they differ from one another.
+- Steps:
+  - 1. Combine the results from the diferent groups into a single dataset.
+  - 2. Shuffle the combined data and then randomly draw (without replacement) a resample of the sample size as group A (clearly it will contain some data from the other groups).
+  - 3. From the remaining data, randomly draw (without replacement) a resample of the same size as group B.
+  - 4. Do the same for groups C, D. You have now collected one set of resamples that mirror the sizes of the original samples.
+  - 5. Whatever statistic or estimate was calculated for the original samples (e.g., difference in group proportions), calculate it now for the resamples, and record; this constitutes one permutation iteration.
+  - 6. Repeat the previous steps R times to yield a permutation distributeion of the test statistic
+
+## Web Stickiness Example
+- A company selling a relatively high-value service wants to test which of two web presentations does a better selling job. Due to the high value of the service being sold, sales are infrequent and the sales cycle is lengthy; it would take too long to accumulate enough sales to know which presentation is superior. So the company decides to measure the results with a proxy variable, using the detailed interior page that describes the service.
+
+## Exhaustive and Bootsrap Permutation Tests
+- In addition to the proceding random shuffling procedure (random permutation test or randomization test), there are two variants of the permutation test:
+  - An exhaustive permutation test.
+  - A bootstrap permutation tes.
+
+## Permutation Tests: The Bottom Line for Data Science
+- In a permutation test, multiple samples are combined and then shuffled.
+- The shuffled values are then divided into resamples, and the statistic of interest is calculated.
+- This process is then repeated, and the resampled statistic is tabulated.
+- Comparing the observed value of the statistic to the resampled distribution allows you to judge whether an abserved difference between samples might occur by chance.
+
+## Statistical Significance and p-Values
+- Statistical significance is how statisticians measure whether an experiment (or even a study of existing data) yields a more result more extreme than what chance might produce. If the result is beyong the realm of of chance variation, it is said to be statistically significant.
+- Terms
+  - p-value = Given a chance model that embodies the null hypothesis, the p-value is the probability of obtaining results as unusual or extreme as the observed results.
+  - Alpha = the probability threshold of "unusualness" that chance results must surpass for actual outcomes to be deemed statistically significant.
+  - Type 1 error = Mistakenly concluding an eect is real (when it is due to chance).
+  - Type 2 error = Mistakenly concluding an effect is due to chance (when it is real).
+- Significance tests are used to determine whether an observed effect is within the range of chance variation for a null hypothesis model.
+- The p-value is the probability that results are extreme as the observed results might occur, given a null hypothesis model.
+- The alpha value is the threshold of "unusualness" in a null hypothesis chance model.
+- Significance testing has been much more relevant for formal reporting of research than for data science (but has been fading recently, even for the former).
